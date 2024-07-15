@@ -14,7 +14,8 @@ public class FieldController {
 
     public void collide(){
         for (int i = 0; i < field.count(); i++) {
-            for (int j = i+1; j < field.count(); j++) {
+            for (int j = 0; j < field.count(); j++) {
+                if(i==j) continue;
                 CollideObject model1 = field.get(i).getCollideModel();
                 CollideObject model2 = field.get(j).getCollideModel();
                 model1.collide(model2);

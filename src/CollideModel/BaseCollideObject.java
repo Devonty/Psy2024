@@ -1,5 +1,6 @@
 package CollideModel;
 
+import CollideModel.NotMovable.NotMovableObject;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
@@ -10,6 +11,8 @@ abstract public class BaseCollideObject implements CollideObject {
     public void collide(CollideObject other) {
         Vector2d thisDelta = this.getDeltaAfterCollide(other);
         Vector2d otherDelta = other.getDeltaAfterCollide(this);
+
+        if(other instanceof NotMovableObject) thisDelta.mul(2d);
 
         this.move(thisDelta);
         other.move(otherDelta);

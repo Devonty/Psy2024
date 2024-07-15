@@ -14,8 +14,8 @@ public class CircleDrawer extends BaseDrawer {
         CircleModel model = (CircleModel) collideModel;
 
         int diameter = (int) model.radius() * 2;
-        int x = (int) (model.x() - model.radius() / 2d);
-        int y = (int) (model.y() - model.radius() / 2d);
+        int x = (int) (model.x() - model.radius());
+        int y = (int) (model.y() - model.radius());
 
         g.setColor(mainColor);
         g.fillOval(x, y, diameter, diameter);

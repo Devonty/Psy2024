@@ -15,7 +15,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
     Timer timer=new Timer(100, this);
     private final FieldController fieldController;
-    private static int frameNumber = 0;
     private static int collideNumber = 0;
 
     public GamePanel() {
@@ -26,7 +25,7 @@ public class GamePanel extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == timer) {
-            System.out.println(collideNumber++);
+            System.out.println(collideNumber++); // выводи в консоль номер итерации коллизии
             fieldController.collide();
             repaint();
         }
