@@ -23,7 +23,7 @@ public class CircleModel extends MovableObject {
     }
 
     @Override
-    public boolean isCollide(Point2d point) {
+    public boolean isPointInside(Point2d point) {
         // на границе не считается
         return center.getDistancePow2To(point) < radius * radius;
     }
