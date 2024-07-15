@@ -6,6 +6,7 @@ import MyMath.Vector2d;
 
 abstract public class BaseCollideObject implements CollideObject {
     protected Point2d center;
+    protected final Vector2d sumMove = new Vector2d(Vector2d.ZERO_VECTOR);
 
     @Override
     public void collide(CollideObject other) {
@@ -26,6 +27,18 @@ abstract public class BaseCollideObject implements CollideObject {
     @Override
     public void move(Vector2d delta) {
         center.move(delta);
+        sumMove.move(delta);
+    }
+
+    @Override
+    public Vector2d sumMove() {
+        return new Vector2d(sumMove);
+    }
+
+    @Override
+    public void resetSumMove() {
+        sumMove.setX(0);
+        sumMove.setY(0);
     }
 
     @Override
@@ -37,4 +50,6 @@ abstract public class BaseCollideObject implements CollideObject {
     public double y() {
         return center.y();
     }
+
+
 }

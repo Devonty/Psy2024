@@ -20,6 +20,9 @@ public interface CollideObject {
 
     void move(Vector2d delta);
 
+    Vector2d sumMove();
+    void resetSumMove();
+
     double x();
 
     double y();
