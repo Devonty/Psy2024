@@ -27,11 +27,6 @@ public class Vector2d extends Point2d {
         this.mul(1d / this.length());
         return this;
     }
-    public Vector2d add(Point2d delta){
-        this.x += delta.x;
-        this.y += delta.y;
-        return this;
-    }
 
     public double mul(Vector2d other) {
         return x * other.x + y * other.y;
