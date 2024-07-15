@@ -26,4 +26,12 @@ public class Line2d {
         Vector2d res = new Vector2d(cor, delta);
         return p.getMoved(res);
     }
+
+    public Point2d start() {
+        return new Point2d(start);
+    }
+
+    public Vector2d dir() {
+        return new Vector2d(dir);
+    }
 }
