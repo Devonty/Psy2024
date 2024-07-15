@@ -5,7 +5,7 @@ public class Segment2d extends Line2d {
 
     public Segment2d(Point2d from, Point2d to) {
         super(from, to);
-        end = to;
+        end = new Point2d(to);
     }
     public Segment2d(Segment2d toCopy) {
         this(toCopy.start, toCopy.end);
