@@ -3,7 +3,7 @@ package MyMath;
 import static MyMath.Comparator.almostEqual;
 
 public class Point2d {
-    final public static Point2d ZERO = new Point2d(0d, 0d);
+    final public static Point2d ZERO_POINT = new Point2d(0d, 0d);
     protected double x, y;
 
     public Point2d(Point2d toCopy) {
