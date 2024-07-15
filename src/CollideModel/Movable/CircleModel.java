@@ -31,7 +31,7 @@ public class CircleModel extends MovableObject {
     @Override
     public boolean isPointInside(Point2d point) {
         // на границе не считается
-        return center.getDistanceTo(point) < radius;
+        return center.getDistancePow2To(point) < radius * radius;
     }
 
     public double radius() {
