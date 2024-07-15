@@ -17,9 +17,9 @@ public class CircleDrawer extends BaseDrawer {
         int x = (int) (model.x() - model.radius() / 2d);
         int y = (int) (model.y() - model.radius() / 2d);
 
-        g.setColor(color);
+        g.setColor(mainColor);
         g.fillOval(x, y, diameter, diameter);
-        g.setColor(Color.BLACK);
+        g.setColor(borderColor);
         g.drawOval(x, y, diameter, diameter);
     }
 }

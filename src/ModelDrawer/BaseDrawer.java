@@ -5,12 +5,18 @@ import CollideModel.CollideObject;
 import java.awt.*;
 
 abstract public class BaseDrawer implements ObjectDrawer {
-    protected Color color;
+    protected Color mainColor;
+    protected Color borderColor = Color.GRAY;
     protected CollideObject collideModel;
 
-    public BaseDrawer(CollideObject collideModel, Color color) {
+    public BaseDrawer(CollideObject collideModel, Color mainColor, Color borderColor) {
         this.collideModel = collideModel;
-        this.color = color;
+        this.mainColor = mainColor;
+        this.borderColor = borderColor;
+    }
+    public BaseDrawer(CollideObject collideModel, Color mainColor) {
+        this.collideModel = collideModel;
+        this.mainColor = mainColor;
     }
 
     public BaseDrawer(CollideObject collideModel) {
@@ -18,13 +24,13 @@ abstract public class BaseDrawer implements ObjectDrawer {
     }
 
     @Override
-    public Color getColor() {
-        return color;
+    public Color getMainColor() {
+        return mainColor;
     }
 
     @Override
-    public void setColor(Color newColor) {
-        color = newColor;
+    public void setMainColor(Color newColor) {
+        mainColor = newColor;
     }
 
     @Override
