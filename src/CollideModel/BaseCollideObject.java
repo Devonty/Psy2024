@@ -11,20 +11,8 @@ abstract public class BaseCollideObject implements CollideObject {
         Vector2d thisDelta = this.getDeltaAfterCollide(other);
         Vector2d otherDelta = other.getDeltaAfterCollide(this);
 
-        //System.out.println("this delta: " + thisDelta);
-        //System.out.println("other delta: " + otherDelta);
-        //System.out.println("----------------");
-
-        //System.out.println("this xy: " + center);
-        //System.out.println("other xy: " + other.center());
-        //System.out.println("----------------");
-
         this.move(thisDelta);
         other.move(otherDelta);
-
-        //System.out.println("this after xy: " + center);
-        //System.out.println("other after xy: " + other.center());
-        //System.out.println("#######################################");
     }
 
     @Override
