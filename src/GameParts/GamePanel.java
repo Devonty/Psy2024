@@ -1,7 +1,9 @@
 package GameParts;
 
 import CollideModel.Movable.CircleModel;
+import CollideModel.NotMovable.WallModel;
 import ModelDrawer.CircleDrawer;
+import ModelDrawer.WallDrawer;
 import MyMath.Point2d;
 
 import javax.swing.*;
@@ -31,6 +33,9 @@ public class GamePanel extends JPanel implements ActionListener{
     }
     public void addCircle(Point2d center, double radios) {
         fieldController.add(new CircleDrawer(new CircleModel(center, radios)));
+    }
+    public void addWall(Point2d p1, Point2d p2) {
+        fieldController.add(new WallDrawer(new WallModel(p1, p2)));
     }
 
     @Override
