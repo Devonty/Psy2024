@@ -26,7 +26,7 @@ public class Point2d {
         return deltaX*deltaX + deltaY*deltaY;
     }
 
-    public Point2d move(Vector2d delta){
+    public Point2d move(Point2d delta){
         x+=delta.x;
         y+=delta.y;
         return this;
