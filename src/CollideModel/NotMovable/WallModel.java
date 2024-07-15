@@ -1,5 +1,6 @@
 package CollideModel.NotMovable;
 
+import CollideModel.CollideObject;
 import MyMath.Point2d;
 import MyMath.Segment2d;
 
@@ -26,6 +27,11 @@ public class WallModel extends NotMovableObject {
     @Override
     public boolean isPointInside(Point2d point) {
         return segment.isOnLine(point);
+    }
+
+    @Override
+    public Point2d getSupportPoint(CollideObject other) {
+        return calcClosestPointTo(other.center());
     }
 
     public Point2d start(){

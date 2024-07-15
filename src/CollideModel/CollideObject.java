@@ -10,6 +10,10 @@ public interface CollideObject {
 
     Point2d calcClosestPointTo(Point2d point);
 
+    default Point2d getSupportPoint(CollideObject other) {
+        return center();
+    }
+
     boolean isPointInside(Point2d point);
 
     Point2d center();
