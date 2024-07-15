@@ -1,6 +1,7 @@
 package GameParts;
 
-import CollideModel.CollideObject;
+import CollideModel.Movable.MovableObject;
+import CollideModel.NotMovable.NotMovableObject;
 import ModelDrawer.ObjectDrawer;
 
 import java.awt.*;
@@ -13,12 +14,30 @@ public class FieldController {
     }
 
     public void collide(){
-        for (int i = 0; i < field.count(); i++) {
-            for (int j = 0; j < field.count(); j++) {
-                if(i==j) continue;
-                CollideObject model1 = field.get(i).getCollideModel();
-                CollideObject model2 = field.get(j).getCollideModel();
-                model1.collide(model2);
+        collideMovableAndMovable();
+        collideNotMovableAndMovable();
+        resetSumMove();
+    }
+
+    private void collideNotMovableAndMovable(){
+        for (MovableObject obj1 : field.movableObjects) {
+            for (NotMovableObject obj2 : field.notMovableObjects) {
+                obj1.collide(obj2);
+            }
+        }
+    }
+
+    private void resetSumMove(){
+        for (MovableObject obj : field.movableObjects) {
+            System.out.println(obj.sumMove());
+            obj.resetSumMove();
+        }
+    }
+
+    private void collideMovableAndMovable(){
+        for (MovableObject obj1 : field.movableObjects) {
+            for (MovableObject obj2 : field.movableObjects) {
+                obj1.collide(obj2);
             }
         }
     }
