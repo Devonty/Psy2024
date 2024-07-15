@@ -6,13 +6,11 @@ import MyMath.Vector2d;
 public interface CollideObject {
     void collide(CollideObject other);
 
-    CollideObject copy(CollideObject collideObject);
-
     Vector2d getDeltaAfterCollide(CollideObject other);
 
     Point2d calcClosestPointTo(Point2d point);
 
-    boolean isPointInside(Point2d point2d);
+    boolean isCollide(Point2d point);
 
     Point2d center();
 
