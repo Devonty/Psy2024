@@ -13,7 +13,7 @@ public class Main {
         GamePanel gp = new GamePanel();
 
 
-        double size = 600d;
+        double size = 400d;
         double step = 10;
         Point2d leftTop = new Point2d(100d, 100d);
         double[] X = new double[]{0, 2 * size, 2 * size, 0, 0};
@@ -22,13 +22,11 @@ public class Main {
         double[] Ys = new double[]{-step, -step, step, step, -step};
 
         // Circles
-        for (int i = 0; i < 1400; i++) {
+        for (int i = 0; i < 700; i++) {
             gp.addCircle(new Point2d(size + i%2, size / 2 + Math.random() * 10).move(leftTop), Math.random() * 5 + 5);
         }
-        JFrame mn = new MainWindow(gp);
 
         // Walls
-
         for (int k = 0; k < 4; k++) {
             for (int i = 0; i < X.length - 1; i++) {
                 Point2d p1 = new Point2d(X[i] + k * Xs[i], Y[i] + k * Ys[i]).move(leftTop);
@@ -37,9 +35,12 @@ public class Main {
             }
         }
 
+        // Add JPanel to JFrame
+        JFrame mn = new MainWindow(gp);
 
         mn.setSize(1280, 585);
         mn.setExtendedState(Frame.MAXIMIZED_BOTH);
+        mn.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mn.setVisible(true);
 
 
