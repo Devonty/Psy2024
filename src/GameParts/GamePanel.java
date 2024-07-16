@@ -10,10 +10,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GamePanel extends JPanel implements ActionListener{
 
-    Timer timer=new Timer(100, this);
+    Timer timer=new Timer(50, this);
     private final FieldController fieldController;
     private static int collideNumber = 0;
 
@@ -21,6 +23,14 @@ public class GamePanel extends JPanel implements ActionListener{
         super();
         this.fieldController = new FieldController();
         timer.start();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Point2d point = new Point2d(e.getXOnScreen(), e.getYOnScreen() - 15);
+                addCircle(point, 15);
+            }
+        });
     }
 
     public void actionPerformed(ActionEvent ev) {
