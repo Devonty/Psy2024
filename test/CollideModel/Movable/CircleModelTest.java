@@ -1,5 +1,6 @@
 package CollideModel.Movable;
 
+import GameParts.CollideController;
 import MyMath.Point2d;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ class CircleModelTest {
         CircleModel c1 = new CircleModel(0, 0, 100);
         CircleModel c2 = new CircleModel(100, 0, 100);
 
-        c1.collide(c2);
+        CollideController.collide(c1, c2);
 
         Point2d expected1 = new Point2d(-50, 0);
         Point2d expected2 = new Point2d(150, 0);

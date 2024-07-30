@@ -23,7 +23,7 @@ abstract public class BaseDrawer implements ObjectDrawer {
     }
 
     public BaseDrawer(CollideObject collideModel) {
-        this(collideModel, new RandomColorProvider());
+        this(collideModel, new SimpleColorProvider(Color.YELLOW));
     }
 
     @Override

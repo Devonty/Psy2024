@@ -6,14 +6,20 @@ import MyMath.Segment2d;
 
 public class WallModel extends NotMovableObject {
     protected Segment2d segment;
+    protected double width;
 
-    public WallModel(Segment2d segment) {
+    public WallModel(Segment2d segment, double width) {
+        this.width = width;
         this.center = new Point2d(segment.start()).move(segment.end()).multiply(0.5d);
         this.segment = new Segment2d(segment);
     }
 
+    public WallModel(Point2d p1, Point2d p2, double width) {
+        this(new Segment2d(p1, p2), width);
+    }
+
     public WallModel(Point2d p1, Point2d p2) {
-        this(new Segment2d(p1, p2));
+        this(p1, p2, 0d);
     }
 
     @Override
