@@ -9,17 +9,6 @@ abstract public class BaseCollideObject implements CollideObject {
     protected final Vector2d sumMove = new Vector2d(Vector2d.ZERO_VECTOR);
 
     @Override
-    public void collide(CollideObject other) {
-        Vector2d thisDelta = this.getDeltaAfterCollide(other);
-        Vector2d otherDelta = other.getDeltaAfterCollide(this);
-
-        if(other instanceof NotMovableObject) thisDelta.mul(2d);
-
-        this.move(thisDelta);
-        other.move(otherDelta);
-    }
-
-    @Override
     public Point2d center() {
         return new Point2d(center);
     }

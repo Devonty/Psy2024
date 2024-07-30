@@ -5,11 +5,12 @@ import CollideModel.NotMovable.NotMovableObject;
 import ModelDrawer.ObjectDrawer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Field {
-    protected ArrayList<ObjectDrawer> objectDrawers;
-    protected ArrayList<MovableObject> movableObjects;
-    protected ArrayList<NotMovableObject> notMovableObjects;
+    protected List<ObjectDrawer> objectDrawers;
+    protected List<MovableObject> movableObjects;
+    protected List<NotMovableObject> notMovableObjects;
 
     public Field() {
         this.objectDrawers = new ArrayList<>();

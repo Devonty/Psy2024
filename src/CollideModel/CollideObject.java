@@ -4,8 +4,6 @@ import MyMath.Point2d;
 import MyMath.Vector2d;
 
 public interface CollideObject {
-    void collide(CollideObject other);
-
     Vector2d getDeltaAfterCollide(CollideObject other);
 
     Point2d calcClosestPointTo(Point2d point);
