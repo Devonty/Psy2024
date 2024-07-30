@@ -1,37 +1,39 @@
 package ModelDrawer;
 
 import CollideModel.CollideObject;
+import ColorObject.ColorProvider;
+import ColorObject.RandomColorProvider;
+import ColorObject.SimpleColorProvider;
 
 import java.awt.*;
 
 abstract public class BaseDrawer implements ObjectDrawer {
-    protected Color mainColor;
-    protected Color borderColor = Color.GRAY;
+    protected ColorProvider mainColorProvider;
+    protected ColorProvider borderColorProvider;
     protected CollideObject collideModel;
 
-    public BaseDrawer(CollideObject collideModel, Color mainColor, Color borderColor) {
+    public BaseDrawer(CollideObject collideModel, ColorProvider mainColorProvider, ColorProvider borderColorProvider) {
         this.collideModel = collideModel;
-        this.mainColor = mainColor;
-        this.borderColor = borderColor;
+        this.mainColorProvider = mainColorProvider;
+        this.borderColorProvider = borderColorProvider;
     }
 
-    public BaseDrawer(CollideObject collideModel, Color mainColor) {
-        this.collideModel = collideModel;
-        this.mainColor = mainColor;
+    public BaseDrawer(CollideObject collideModel, ColorProvider mainColorProvider) {
+        this(collideModel, mainColorProvider, new SimpleColorProvider(Color.GRAY));
     }
 
     public BaseDrawer(CollideObject collideModel) {
-        this(collideModel, new Color((int) (Math.random() * 0x1000000)).brighter());
+        this(collideModel, new RandomColorProvider());
     }
 
     @Override
     public Color getMainColor() {
-        return mainColor;
+        return mainColorProvider.getColor();
     }
 
     @Override
-    public void setMainColor(Color newColor) {
-        mainColor = newColor;
+    public void setMainColorProvider(ColorProvider newColorProvider) {
+        mainColorProvider = newColorProvider;
     }
 
     @Override
@@ -40,13 +42,13 @@ abstract public class BaseDrawer implements ObjectDrawer {
     }
 
     @Override
-    public Color getBorderColor() {
-        return borderColor;
+    public Color getBorderColorProvider() {
+        return borderColorProvider.getColor();
     }
 
     @Override
-    public void setBorderColor(Color newColor) {
-        borderColor = newColor;
+    public void setBorderColorProvider(ColorProvider newColorProvider) {
+        borderColorProvider = newColorProvider;
     }
 
     @Override
