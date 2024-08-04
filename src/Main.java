@@ -4,7 +4,7 @@ import MyMath.Point2d;
 public class Main {
     public static void main(String[] args) {
         // GamePanel
-        Game game = new Game();
+        Game game = new Game(30);
 
         double size = 400d;
         double step = 10;

@@ -23,13 +23,15 @@ public class Game implements Runnable {
 
     private final GamePanel gamePanel; // only draw
 
-    public final double clock = 1000000000.0 / 60.0; // FPS 60
+    public final double clock;
     private boolean keepRunning = true;
     private boolean keepUpdating = true;
 
     private final List<ObjectDrawer> toAddList;
 
-    public Game() {
+
+    public Game(double fps) {
+        this.clock = 1000000000.0 / fps;
         this.field = new Field();
         this.fieldController = new FieldController(field);
         this.gamePanel = new GamePanel(this);
@@ -44,6 +46,7 @@ public class Game implements Runnable {
         mn.setVisible(true);
     }
 
+    public Game() {this(60d);}
     @Override
     public void run() {
         keepRunning = true;
