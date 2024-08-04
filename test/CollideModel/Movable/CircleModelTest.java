@@ -1,6 +1,6 @@
 package CollideModel.Movable;
 
-import GameParts.CollideController;
+import GameParts.FieldParts.CollideController;
 import MyMath.Point2d;
 import org.junit.jupiter.api.Test;
 
