@@ -11,8 +11,7 @@ public class Segment2d extends Line2d {
         this(toCopy.start(), toCopy.end());
     }
 
-    @Override
-    public boolean isOnLine(Point2d point) {
+    public boolean isOnSegment(Point2d point) {
         return this.isInsideBorderSquare(point) && super.isOnLine(point);
     }
 
