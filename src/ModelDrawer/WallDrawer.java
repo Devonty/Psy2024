@@ -17,6 +17,7 @@ public class WallDrawer extends BaseDrawer{
         Point2d p2 = model.end();
 
         g.setColor(mainColorProvider.getColor());
+        g.setStroke(new BasicStroke((float) (model.width() * 2d)));
         g.drawLine((int) p1.x(), (int) p1.y(), (int) p2.x(), (int) p2.y());
     }
 }
