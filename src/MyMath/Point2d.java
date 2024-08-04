@@ -19,6 +19,11 @@ public class Point2d {
         return this;
     }
 
+    public Point2d addNoiseVector(double ratio){
+        this.move(Vector2d.getRandomDirection(ratio));
+        return this;
+    }
+
     public Point2d() {
        this(0,0);
     }
