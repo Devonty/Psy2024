@@ -2,6 +2,7 @@ package MyMath;
 
 public class Vector2d extends Point2d {
     final public static Vector2d ZERO_VECTOR = new Vector2d(0d, 0d);
+
     public Vector2d(double x, double y) {
         super(x, y);
     }
@@ -16,6 +17,14 @@ public class Vector2d extends Point2d {
 
     public Vector2d() {
         super();
+    }
+
+    public static Vector2d getRandomDirection() {
+        return getRandomDirection(1d);
+    }
+
+    public static Vector2d getRandomDirection(double length) {
+        return new Vector2d(Math.random() - 0.5, Math.random() - 0.5).normalize().mul(length);
     }
 
     public double length() {
