@@ -54,7 +54,9 @@ abstract public class BaseDrawer implements ObjectDrawer {
     @Override
     final public void draw(Graphics2D g) {
         Color save = g.getColor();
+        Stroke stroke = g.getStroke();
         subDraw(g);
+        g.setStroke(stroke);
         g.setColor(save);
     }
 
