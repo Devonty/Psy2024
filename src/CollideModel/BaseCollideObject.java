@@ -6,7 +6,14 @@ import MyMath.Vector2d;
 
 abstract public class BaseCollideObject implements CollideObject {
     protected Point2d center;
-    protected final Vector2d sumMove = new Vector2d(Vector2d.ZERO_VECTOR);
+    protected final Vector2d sumMove;
+    protected double mass;
+
+    public BaseCollideObject(Point2d center, double mass) {
+        this.center = center;
+        this.sumMove = new Vector2d(Vector2d.ZERO_VECTOR);
+        this.mass = mass;
+    }
 
     @Override
     public Point2d center() {
@@ -41,4 +48,8 @@ abstract public class BaseCollideObject implements CollideObject {
     }
 
 
+    @Override
+    public double mass() {
+        return mass;
+    }
 }

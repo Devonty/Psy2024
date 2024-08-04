@@ -8,7 +8,7 @@ public class CircleModel extends MovableObject {
 
 
     public CircleModel(Point2d center, double radius) {
-        this.center = new Point2d(center);
+        super(center, radius * radius * Math.PI);
         this.radius = radius;
     }
 
@@ -18,7 +18,7 @@ public class CircleModel extends MovableObject {
 
 
     @Override
-    public Point2d calcClosestPointTo(Point2d point) {
+    public Point2d calcClosestPointOutsideFor(Point2d point) {
         return new Vector2d(center, point).normalize().mul(radius).move(center);
     }
 

@@ -4,9 +4,8 @@ import MyMath.Point2d;
 import MyMath.Vector2d;
 
 public interface CollideObject {
-    Vector2d getDeltaAfterCollide(CollideObject other);
 
-    Point2d calcClosestPointTo(Point2d point);
+    Point2d calcClosestPointOutsideFor(Point2d point);
 
     default Point2d getSupportPoint(CollideObject other) {
         return center();
@@ -24,5 +23,7 @@ public interface CollideObject {
     double x();
 
     double y();
+
+    double mass();
 
 }
