@@ -1,17 +1,10 @@
-import CollideModel.NotMovable.WallModel;
-import GameParts.GamePanel;
-import GameParts.MainWindow;
-import ModelDrawer.WallDrawer;
+import GameParts.Game;
 import MyMath.Point2d;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
         // GamePanel
-        GamePanel gp = new GamePanel();
-
+        Game game = new Game();
 
         double size = 400d;
         double step = 10;
@@ -22,27 +15,21 @@ public class Main {
         double[] Ys = new double[]{-step, -step, step, step, -step};
 
         // Circles
-        for (int i = 0; i < 700; i++) {
-            gp.addCircle(new Point2d(size + i%2, size / 2 + Math.random() * 10).move(leftTop), Math.random() * 5 + 5);
+        for (int i = 0; i < 20; i++) {
+            game.addCircle(new Point2d(size + i%2, size / 2 + Math.random() * 10).move(leftTop), Math.random() * 100 + 1);
         }
 
         // Walls
-        for (int k = 0; k < 4; k++) {
+        for (int k = 0; k < 1; k++) {
             for (int i = 0; i < X.length - 1; i++) {
                 Point2d p1 = new Point2d(X[i] + k * Xs[i], Y[i] + k * Ys[i]).move(leftTop);
                 Point2d p2 = new Point2d(X[i + 1] + k * Xs[i + 1], Y[i + 1] + k * Ys[i + 1]).move(leftTop);
-                gp.addWall(p1, p2);
+                game.addWall(p1, p2);
             }
         }
 
-        // Add JPanel to JFrame
-        JFrame mn = new MainWindow(gp);
 
-        mn.setSize(1280, 585);
-        mn.setExtendedState(Frame.MAXIMIZED_BOTH);
-        mn.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mn.setVisible(true);
-
-
+        Thread gameThread = new Thread(game, "gameThread");
+        gameThread.start();
     }
 }
