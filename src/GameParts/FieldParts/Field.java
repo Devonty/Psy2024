@@ -1,4 +1,4 @@
-package GameParts;
+package GameParts.FieldParts;
 
 import CollideModel.Movable.MovableObject;
 import CollideModel.NotMovable.NotMovableObject;

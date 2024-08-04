@@ -1,4 +1,4 @@
-package GameParts;
+package GameParts.FieldParts;
 
 import CollideModel.CollideObject;
 import ModelDrawer.ObjectDrawer;
@@ -8,8 +8,8 @@ import java.awt.*;
 public class FieldController {
     public final Field field;
 
-    public FieldController() {
-        this.field = new Field();
+    public FieldController(Field field) {
+        this.field = field;
     }
 
     public void collide() {
