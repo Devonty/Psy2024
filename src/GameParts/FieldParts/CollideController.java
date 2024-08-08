@@ -7,25 +7,13 @@ import ModelDrawer.ObjectDrawer;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
-import java.nio.channels.Pipe;
 import java.util.List;
 import java.util.Objects;
 
 public class CollideController {
     public static void collide(MovableObject first, MovableObject second){
         if (Objects.equals(first.center(), second.center())) return;
-        Point2d firstP = first.calcClosestPointOutsideFor(second.getSupportPoint(first));
-        Point2d secondP = second.calcClosestPointOutsideFor(first.getSupportPoint(second));
-
-        double betweenCenterDistance = first.center().getDistanceTo(second.center());
-        double firstDistance = first.center().getDistanceTo(firstP);
-        double secondDistance = second.center().getDistanceTo(secondP);
-
-        double deltaLength = firstDistance + secondDistance - betweenCenterDistance;
-
-        if (deltaLength <= 0d) return;
-
-        Vector2d delta = new Vector2d(first.center(), second.center()).normalize().mul(deltaLength / 2d);
+        Vector2d delta = getDeltaVector(first, second);
 
         double totalMass = first.mass() + second.mass();
         double firstK = second.mass() / totalMass;
@@ -36,25 +24,26 @@ public class CollideController {
     }
     public static void collide(MovableObject movable, NotMovableObject notMovable){
         if (Objects.equals(movable.center(), notMovable.center())) return;
+        Vector2d delta = getDeltaVector(movable, notMovable).mul(-1);
+        movable.move(delta);
+    }
 
-        Point2d firstSupport = movable.getSupportPoint(notMovable);
-        Point2d secondSupport = notMovable.getSupportPoint(movable);
+    public static Vector2d getDeltaVector(CollideObject first, CollideObject second){
+        Point2d firstSupport = first.getSupportPoint(second);
+        Point2d secondSupport = second.getSupportPoint(first);
 
-        Point2d firstP = movable.calcClosestPointOutsideFor(secondSupport);
-        Point2d secondP = notMovable.calcClosestPointOutsideFor(firstSupport);
+        Point2d firstP = first.calcClosestPointOutsideFor(secondSupport);
+        Point2d secondP = second.calcClosestPointOutsideFor(firstSupport);
 
-        if (!movable.isPointInside(secondP)) return;
+        if (!first.isPointInside(secondP)) return new Vector2d(Vector2d.ZERO_VECTOR);
 
-        double betweenCenterDistance = movable.center().getDistanceTo(secondSupport);
+        double betweenCenterDistance = firstSupport.getDistanceTo(secondSupport);
         double firstDistance = firstSupport.getDistanceTo(firstP);
         double secondDistance = secondSupport.getDistanceTo(secondP);
 
         double deltaLength = firstDistance + secondDistance - betweenCenterDistance;
-
-        if (deltaLength <= 0d) return;
-
-        Vector2d delta = new Vector2d(firstSupport, secondSupport).normalize().mul(-deltaLength);
-        movable.move(delta);
+        Vector2d delta = new Vector2d(firstSupport, secondSupport).normalize().mul(deltaLength);
+        return delta;
     }
     public static void collide(NotMovableObject notMovableObject, MovableObject movableObject){
         collide(movableObject, notMovableObject); // mirror case
@@ -87,5 +76,10 @@ public class CollideController {
     }
     public static <T extends CollideObject> void collide(List<T> group) {
         collide(group, group);
+    }
+    public static <T extends CollideObject> void collide(CollideObject collideObject ,List<T> group) {
+        for(T t: group){
+            collide(collideObject, t);
+            }
     }
 }

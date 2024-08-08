@@ -28,7 +28,7 @@ public class SumMoveColorProvider extends CollideObjectColorProvider {
     public Color getColor() {
         double length = collideObject.sumMove().length();
 
-        if (length <= 1E-5) return stopColor;
+        if (length <= 1E-4) return stopColor;
 
         double ratio = (normalized0to1(length * 2) - 0.5) * 2;
         return mixColors(slowColor, fastColor, ratio);

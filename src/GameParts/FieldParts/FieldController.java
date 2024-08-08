@@ -13,11 +13,18 @@ public class FieldController {
     }
 
     public void collide() {
-        field.movableObjects.forEach(CollideObject::resetSumMove);
-        CollideController.collide(field.movableObjects);
+        field.allObjects.forEach(CollideObject::resetSumMove);
+
+        field.makeProjection();
+        field.movableObjects.forEach(this::collideWithNeighbors);
+        //CollideController.collide(field.movableObjects);
         CollideController.collide(field.movableObjects, field.notMovableObjects);
+        //field.calcMinMaxXY();
     }
 
+    private void collideWithNeighbors(CollideObject collideObject){
+            CollideController.collide(collideObject, field.getNeighborList(collideObject));
+    }
 
     public void add(ObjectDrawer objectDrawer) {
         field.add(objectDrawer);

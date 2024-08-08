@@ -24,6 +24,7 @@ public class Game implements Runnable {
     private final GamePanel gamePanel; // only draw
 
     public final double clock;
+    private int frameCount;
     private boolean keepRunning = true;
     private boolean keepUpdating = true;
 
@@ -32,6 +33,7 @@ public class Game implements Runnable {
 
     public Game(double fps) {
         this.clock = 1000000000.0 / fps;
+        this.frameCount = 0;
         this.field = new Field();
         this.fieldController = new FieldController(field);
         this.gamePanel = new GamePanel(this);
@@ -58,12 +60,13 @@ public class Game implements Runnable {
             addObjectsFromQueue();
             long now = System.nanoTime();
             delta += (now - lastTime) / clock;
-            lastTime = now;
 
             while (delta >= 1) {
+                System.out.println(++frameCount + " " + (now - lastTime));
                 update();
-                delta--;
+                delta=0;
             }
+            lastTime = now;
             render();
         }
     }
@@ -72,8 +75,11 @@ public class Game implements Runnable {
         toAddList.add(new CircleDrawer(new CircleModel(center, radios)));
     }
 
+    public synchronized void addWall(Point2d p1, Point2d p2, double width) {
+        toAddList.add(new WallDrawer(new WallModel(p1, p2, width)));
+    }
     public synchronized void addWall(Point2d p1, Point2d p2) {
-        toAddList.add(new WallDrawer(new WallModel(p1, p2)));
+        addWall(p1, p2, 50);
     }
 
     public FieldController getFieldController() {

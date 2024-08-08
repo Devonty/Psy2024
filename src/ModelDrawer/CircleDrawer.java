@@ -1,13 +1,15 @@
 package ModelDrawer;
 
 import CollideModel.Movable.CircleModel;
+import ColorObject.RandomColorProvider;
 import ColorObject.SumMoveColorProvider;
 
 import java.awt.*;
 
 public class CircleDrawer extends BaseDrawer {
     public CircleDrawer(CircleModel circleModel) {
-        super(circleModel, new SumMoveColorProvider(circleModel));
+        //super(circleModel, new SumMoveColorProvider(circleModel));
+        super(circleModel, new RandomColorProvider());
     }
 
     @Override

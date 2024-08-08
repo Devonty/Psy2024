@@ -16,10 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends JPanel{
     private final Game game;
     private final FieldController fieldController;
-    private static int collideNumber = 0;
 
     public GamePanel(Game game) {
         super();
@@ -39,30 +38,31 @@ public class GamePanel extends JPanel implements ActionListener {
                         game.addCircle(new Point2d(point).addNoiseVector(1E-1), 15);
 
                     }
-                } else if (e.getButton() == 2) {
-                    actionPerformed(null);
                 } else {
                     Point2d point = new Point2d(e.getXOnScreen(), e.getYOnScreen() - 15);
-                    game.addCircle(point, 15);
+                    game.addCircle(point, 100);
                 }
                 repaint();
             }
         });
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        collideNumber++;
-        if (ev == null)
-            fieldController.collide();
-        repaint();
-    }
-
     @Override
     protected void paintComponent(Graphics gr) {
-        System.out.println(collideNumber++);
         Graphics2D g = (Graphics2D) gr;
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        Point2d startPoint = fieldController.field.getStartPoint();
+        double deltaStep = fieldController.field.getDeltaStep();
+
+        g.setColor(Color.BLUE);
+        for (int i = 0; i < fieldController.field.getHeight(); i++) {
+            for (int j = 0; j < fieldController.field.getWidth(); j++) {
+                g.drawRect((int) (j*deltaStep + startPoint.x()), (int) (i*deltaStep + startPoint.y()), (int) deltaStep, (int) deltaStep);
+            }
+        }
+
         fieldController.draw(g);
     }
 }
