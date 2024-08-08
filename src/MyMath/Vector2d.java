@@ -19,6 +19,14 @@ public class Vector2d extends Point2d {
         super();
     }
 
+    public Vector2d getOrthogonal(){
+        return new Vector2d(-y, x);
+    }
+
+    public static Vector2d getOrthogonal(Vector2d vector2d){
+        return new Vector2d(-vector2d.y, vector2d.x);
+    }
+
     public static Vector2d getRandomDirection() {
         return getRandomDirection(1d);
     }
