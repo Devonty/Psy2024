@@ -5,14 +5,20 @@ import MyMath.Point2d;
 import MyMath.Segment2d;
 import MyMath.Vector2d;
 
+import java.util.Arrays;
+
 public class WallModel extends NotMovableObject {
     protected Segment2d segment;
     protected double width;
+    protected final Point2d[] rectPoints;
 
     public WallModel(Segment2d segment, double width) {
         super(segment.end().move(segment.start()).multiply(0.5d));
+        this.rectPoints = new Point2d[4];
         this.width = width;
         this.segment = new Segment2d(segment);
+
+        this.calcRectPoints();
     }
 
     public WallModel(Point2d p1, Point2d p2, double width) {
@@ -20,7 +26,7 @@ public class WallModel extends NotMovableObject {
     }
 
     public WallModel(Point2d p1, Point2d p2) {
-        this(p1, p2, 5d);
+        this(p1, p2, 35d);
     }
 
     @Override
@@ -56,5 +62,18 @@ public class WallModel extends NotMovableObject {
 
     public double width(){
         return width;
+    }
+
+    protected void calcRectPoints(){
+        Vector2d orthogonal = segment.direction().getOrthogonal().normalize().mul(width);
+        rectPoints[0] = segment.start().move(orthogonal);
+        rectPoints[1] = segment.end().move(orthogonal);
+        orthogonal.mul(-1);
+        rectPoints[2] = segment.end().move(orthogonal);
+        rectPoints[3] = segment.start().move(orthogonal);
+    }
+
+    public Point2d[] getRectPoints(){
+        return Arrays.copyOf(rectPoints, rectPoints.length);
     }
 }
