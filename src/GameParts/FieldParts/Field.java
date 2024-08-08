@@ -6,7 +6,7 @@ import CollideModel.Movable.MovableObject;
 import CollideModel.NotMovable.NotMovableObject;
 import ModelDrawer.ObjectDrawer;
 import MyMath.Point2d;
-import MyUtilz.FieldArrayList;
+import MyUtilz.Cell;
 
 import java.util.*;
 
@@ -16,13 +16,17 @@ public class Field {
     protected List<MovableObject> movableObjects;
     protected List<NotMovableObject> notMovableObjects;
 
-    private final List<List<List<CollideObject>>> fieldMatrix;
+    private Cell[][] fieldMatrix;
+
     private double minX, minY, maxX, maxY;
-    private int height = 0, width = 0;
+    private int height, width;
     private double deltaStep;
 
     public Field() {
-        this.fieldMatrix = new FieldArrayList<>();
+        this.height = 0;
+        this.width = 0;
+        this.fieldMatrix = new Cell[0][0];
+
         this.objectDrawers = new ArrayList<>();
         this.allObjects = new ArrayList<>();
         this.movableObjects = new ArrayList<>();
@@ -64,12 +68,12 @@ public class Field {
     private static final List<CollideObject> emptyList = new ArrayList<>(0);
 
     private List<CollideObject> getFromFieldMask(int i, int j) {
-        if (i < 0 || j < 0 || i >= fieldMatrix.size() || j >= fieldMatrix.get(i).size()) return emptyList;
-        return fieldMatrix.get(i).get(j);
+        if (i < 0 || j < 0 || i >= fieldMatrix.length || j >= fieldMatrix[i].length) return emptyList;
+        return fieldMatrix[i][j].getList();
     }
 
     public void makeProjection() {
-        fieldMatrix.clear();
+        clearFieldMatrix();
         calcParams();
         for (CollideObject collideObject : allObjects) {
             int[] ij = getIJbyCollideObject(collideObject);
@@ -88,16 +92,19 @@ public class Field {
     }
 
     private void extendFieldMatrix() {
+        int oldHeight = height;
+        int oldWidth = width;
+
         height = Math.max((int) ((maxY - minY) / deltaStep + 1), height);
         width = Math.max((int) ((maxX - minX) / deltaStep + 1), width);
 
-        while (fieldMatrix.size() <= height) {
-            List<List<CollideObject>> list = new FieldArrayList<>(width);
+        if(oldHeight == height && oldWidth== width) return;
 
-            while (list.size() <= width) {
-                list.add(new LinkedList<>());
+        fieldMatrix = new Cell[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                fieldMatrix[i][j] = new Cell();
             }
-            fieldMatrix.add(list);
         }
     }
 
@@ -106,11 +113,7 @@ public class Field {
     }
 
     private void clearFieldMatrix() {
-        for (List<List<CollideObject>> row : fieldMatrix) {
-            for (List<CollideObject> collideObjects : row) {
-                collideObjects.clear();
-            }
-        }
+        Arrays.stream(fieldMatrix).forEach(row -> Arrays.stream(row).forEach(Cell::clear));
     }
 
     public void resetParams() {
