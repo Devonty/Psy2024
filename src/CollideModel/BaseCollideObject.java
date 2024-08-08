@@ -10,7 +10,7 @@ abstract public class BaseCollideObject implements CollideObject {
     protected double mass;
 
     public BaseCollideObject(Point2d center, double mass) {
-        this.center = center;
+        this.center = new Point2d(center);
         this.sumMove = new Vector2d(Vector2d.ZERO_VECTOR);
         this.mass = mass;
     }
