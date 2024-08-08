@@ -5,6 +5,8 @@ import CollideModel.Movable.CircleModel;
 import CollideModel.Movable.MovableObject;
 import CollideModel.NotMovable.NotMovableObject;
 import ModelDrawer.ObjectDrawer;
+import MyMath.Point2d;
+import MyUtilz.FieldArrayList;
 
 import java.util.*;
 
@@ -14,18 +16,17 @@ public class Field {
     protected List<MovableObject> movableObjects;
     protected List<NotMovableObject> notMovableObjects;
 
-    private Map<Integer, Map<Integer, List<CollideObject>>> fieldMask;
+    private final List<List<List<CollideObject>>> fieldMatrix;
     private double minX, minY, maxX, maxY;
-    private double deltaStepX, deltaStepY;
+    private int height = 0, width = 0;
     private double deltaStep;
 
     public Field() {
-        this.fieldMask = new HashMap<>();
+        this.fieldMatrix = new FieldArrayList<>();
         this.objectDrawers = new ArrayList<>();
         this.allObjects = new ArrayList<>();
         this.movableObjects = new ArrayList<>();
         this.notMovableObjects = new ArrayList<>();
-
 
     }
 
@@ -55,29 +56,20 @@ public class Field {
 
     private int[] getIJbyCollideObject(CollideObject collideObject) {
         int[] ij = new int[2];
-        ij[0] = (int) ((collideObject.x() - minX) / deltaStepX);
-        ij[1] = (int) ((collideObject.y() - minY) / deltaStepY);
+        ij[0] = (int) ((collideObject.x() - minX) / deltaStep);
+        ij[1] = (int) ((collideObject.y() - minY) / deltaStep);
         return ij;
     }
 
+    private static final List<CollideObject> emptyList = new ArrayList<>(0);
+
     private List<CollideObject> getFromFieldMask(int i, int j) {
-        fieldMask.putIfAbsent(i, new HashMap<>());
-        fieldMask.get(i).putIfAbsent(j, new LinkedList<>());
-        return fieldMask.get(i).get(j);
+        if (i < 0 || j < 0 || i >= fieldMatrix.size() || j >= fieldMatrix.get(i).size()) return emptyList;
+        return fieldMatrix.get(i).get(j);
     }
 
-    public void calcFieldMask() {
-        fieldMask.clear();
-        if (!calcParams()) return;
-
-        deltaStepX =  deltaStep;
-        deltaStepY =  deltaStep;
-
-        makeProjection();
-    }
-
-    public void makeProjection(){
-        fieldMask.clear();
+    public void makeProjection() {
+        fieldMatrix.clear();
         calcParams();
         for (CollideObject collideObject : allObjects) {
             int[] ij = getIJbyCollideObject(collideObject);
@@ -90,10 +82,38 @@ public class Field {
         if (allObjects.isEmpty()) return false;
         resetParams();
         allObjects.forEach(this::updateParams);
+        clearFieldMatrix();
+        extendFieldMatrix();
         return true;
     }
 
-    public void resetParams(){
+    private void extendFieldMatrix() {
+        height = Math.max((int) ((maxY - minY) / deltaStep + 1), height);
+        width = Math.max((int) ((maxX - minX) / deltaStep + 1), width);
+
+        while (fieldMatrix.size() <= height) {
+            List<List<CollideObject>> list = new FieldArrayList<>(width);
+
+            while (list.size() <= width) {
+                list.add(new LinkedList<>());
+            }
+            fieldMatrix.add(list);
+        }
+    }
+
+    public Point2d getStartPoint() {
+        return new Point2d(minX, minY);
+    }
+
+    private void clearFieldMatrix() {
+        for (List<List<CollideObject>> row : fieldMatrix) {
+            for (List<CollideObject> collideObjects : row) {
+                collideObjects.clear();
+            }
+        }
+    }
+
+    public void resetParams() {
         minX = Double.MAX_VALUE;
         maxX = -Double.MAX_VALUE;
         minY = Double.MAX_VALUE;
@@ -108,7 +128,7 @@ public class Field {
         minY = Math.min(minY, collideObject.y());
         maxY = Math.max(maxY, collideObject.y());
 
-        if(collideObject instanceof CircleModel) {
+        if (collideObject instanceof CircleModel) {
             deltaStep = Math.max(deltaStep, ((CircleModel) collideObject).radius() * 2.1);
         }
 
@@ -120,5 +140,33 @@ public class Field {
 
     public int count() {
         return objectDrawers.size();
+    }
+
+    public double getMinX() {
+        return minX;
+    }
+
+    public double getMinY() {
+        return minY;
+    }
+
+    public double getMaxX() {
+        return maxX;
+    }
+
+    public double getMaxY() {
+        return maxY;
+    }
+
+    public double getDeltaStep() {
+        return deltaStep;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

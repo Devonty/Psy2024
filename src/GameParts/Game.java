@@ -60,13 +60,13 @@ public class Game implements Runnable {
             addObjectsFromQueue();
             long now = System.nanoTime();
             delta += (now - lastTime) / clock;
-            lastTime = now;
 
             while (delta >= 1) {
-                System.out.println(++frameCount);
+                System.out.println(++frameCount + " " + (now - lastTime));
                 update();
-                delta = 0;
+                delta=0;
             }
+            lastTime = now;
             render();
         }
     }

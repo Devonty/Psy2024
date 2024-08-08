@@ -4,7 +4,7 @@ import MyMath.Point2d;
 public class Main {
     public static void main(String[] args) {
         // GamePanel
-        Game game = new Game(60);
+        Game game = new Game(10);
         fillSample1(game);
 
         Thread gameThread = new Thread(game, "gameThread");

@@ -52,6 +52,17 @@ public class GamePanel extends JPanel{
         Graphics2D g = (Graphics2D) gr;
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        Point2d startPoint = fieldController.field.getStartPoint();
+        double deltaStep = fieldController.field.getDeltaStep();
+
+        g.setColor(Color.BLUE);
+        for (int i = 0; i < fieldController.field.getHeight(); i++) {
+            for (int j = 0; j < fieldController.field.getWidth(); j++) {
+                g.drawRect((int) (j*deltaStep + startPoint.x()), (int) (i*deltaStep + startPoint.y()), (int) deltaStep, (int) deltaStep);
+            }
+        }
+
         fieldController.draw(g);
     }
 }
