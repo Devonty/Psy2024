@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         // GamePanel
         Game game = new Game(30);
-        fillSample1(game);
+        //fillSample1(game);
 
         Thread gameThread = new Thread(game, "gameThread");
         gameThread.start();

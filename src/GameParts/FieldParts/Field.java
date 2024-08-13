@@ -11,6 +11,7 @@ import MyUtilz.Cell;
 import java.util.*;
 
 public class Field {
+    private static final double DEFAULT_DELTA_STEP = 10d;
     protected List<ObjectDrawer> objectDrawers;
     protected List<CollideObject> allObjects;
     protected List<MovableObject> movableObjects;
@@ -122,7 +123,8 @@ public class Field {
         minY = Double.MAX_VALUE;
         maxY = -Double.MAX_VALUE;
 
-        deltaStep = 1;
+
+        deltaStep = DEFAULT_DELTA_STEP;
     }
 
     private void updateParams(CollideObject collideObject) {

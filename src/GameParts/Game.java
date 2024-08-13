@@ -62,7 +62,7 @@ public class Game implements Runnable {
             delta += (now - lastTime) / clock;
 
             while (delta >= 1) {
-                System.out.println(++frameCount + " " + (now - lastTime));
+                System.out.println(++frameCount);
                 update();
                 delta=0;
             }
