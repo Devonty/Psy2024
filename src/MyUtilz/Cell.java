@@ -1,26 +1,26 @@
 package MyUtilz;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Cell {
-    protected final List<CollideObject> collideObjectList;
+    protected final List<GameObject> gameObjectList;
 
     public Cell() {
-        this.collideObjectList = new LinkedList<>();
+        this.gameObjectList = new LinkedList<>();
     }
 
     public void clear(){
-        collideObjectList.clear();
+        gameObjectList.clear();
     }
 
-    public void add(CollideObject collideObject){
-        collideObjectList.add(collideObject);
+    public void add(GameObject gameObject){
+        gameObjectList.add(gameObject);
     }
 
-    public List<CollideObject> getList(){
-        return collideObjectList;
+    public List<GameObject> getList(){
+        return gameObjectList;
     }
 }

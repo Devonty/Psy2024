@@ -1,6 +1,6 @@
 package ModelDrawer;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 import ColorObject.ColorProvider;
 
 import java.awt.*;
@@ -10,6 +10,6 @@ public interface ObjectDrawer {
     void setMainColorProvider(ColorProvider newColorProvider);
     Color getBorderColorProvider();
     void setBorderColorProvider(ColorProvider newColorProvider);
-    CollideObject getCollideModel();
+    GameObject getCollideModel();
     void draw(Graphics2D g);
 }

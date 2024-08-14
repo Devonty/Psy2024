@@ -3,11 +3,11 @@ package CollideModel;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
-public interface CollideObject {
+public interface GameObject {
 
     Point2d calcClosestPointOutsideFor(Point2d point);
 
-    default Point2d getSupportPoint(CollideObject other) {
+    default Point2d getSupportPoint(GameObject other) {
         return center();
     }
 
@@ -18,6 +18,7 @@ public interface CollideObject {
     void move(Vector2d delta);
 
     Vector2d sumMove();
+
     void resetSumMove();
 
     double x();

@@ -112,7 +112,7 @@ public class Game implements Runnable {
 
     private void update() {
         if (!keepUpdating) return;
-        fieldController.collide();
+        fieldController.update();
     }
 
 

@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         // GamePanel
         Game game = new Game(30);
-        //fillSample1(game);
+        fillSample1(game);
 
         Thread gameThread = new Thread(game, "gameThread");
         gameThread.start();
@@ -28,11 +28,16 @@ public class Main {
 
         // Walls
         for (int k = 0; k < 1; k++) {
-            for (int i = 0; i < X.length - 1; i++, i++) {
+            for (int i = 0; i < X.length - 1; i++) {
                 Point2d p1 = new Point2d(X[i] + k * Xs[i], Y[i] + k * Ys[i]).move(leftTop);
                 Point2d p2 = new Point2d(X[i + 1] + k * Xs[i + 1], Y[i + 1] + k * Ys[i + 1]).move(leftTop);
                 game.addWall(p1, p2, 10);
             }
         }
+    }
+
+    public static void fillSample2(Game game) {
+        game.addCircle(new Point2d(100, 100), 10);
+        game.addWall(new Point2d(200, 0), new Point2d(200, 300));
     }
 }

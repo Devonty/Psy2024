@@ -4,7 +4,7 @@ import CollideModel.Movable.CircleModel;
 import CollideModel.Movable.MovableObject;
 import CollideModel.NotMovable.NotMovableObject;
 import CollideModel.NotMovable.WallModel;
-import GameParts.FieldParts.CollideController;
+import Components.CollideComponent.CollideController;
 import MyMath.Point2d;
 import org.junit.jupiter.api.Test;
 

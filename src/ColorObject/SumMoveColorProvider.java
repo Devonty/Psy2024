@@ -1,6 +1,6 @@
 package ColorObject;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 
 import java.awt.*;
 import static ColorObject.ColorUtils.mixColors;
@@ -9,14 +9,14 @@ public class SumMoveColorProvider extends CollideObjectColorProvider {
     protected Color slowColor;
     protected Color fastColor;
     protected Color stopColor;
-    public SumMoveColorProvider(CollideObject collideObject, Color slowColor, Color fastColor, Color stopColor) {
-        super(collideObject);
+    public SumMoveColorProvider(GameObject gameObject, Color slowColor, Color fastColor, Color stopColor) {
+        super(gameObject);
         this.slowColor = slowColor;
         this.fastColor = fastColor;
         this.stopColor = stopColor;
     }
-    public SumMoveColorProvider(CollideObject collideObject) {
-        this(collideObject, Color.BLUE, Color.RED, Color.YELLOW);
+    public SumMoveColorProvider(GameObject gameObject) {
+        this(gameObject, Color.BLUE, Color.RED, Color.YELLOW);
     }
 
 
@@ -26,7 +26,7 @@ public class SumMoveColorProvider extends CollideObjectColorProvider {
 
     @Override
     public Color getColor() {
-        double length = collideObject.sumMove().length();
+        double length = gameObject.sumMove().length();
 
         if (length <= 1E-4) return stopColor;
 

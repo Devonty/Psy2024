@@ -1,6 +1,6 @@
-package GameParts.FieldParts;
+package Components.CollideComponent;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 import CollideModel.Movable.MovableObject;
 import CollideModel.NotMovable.NotMovableObject;
 import ModelDrawer.ObjectDrawer;
@@ -25,10 +25,15 @@ public class CollideController {
     public static void collide(MovableObject movable, NotMovableObject notMovable){
         if (Objects.equals(movable.center(), notMovable.center())) return;
         Vector2d delta = getDeltaVector(movable, notMovable).mul(-1);
+        if (Objects.equals(delta, Vector2d.ZERO_VECTOR)) return;
+
+        double oldVel = movable.velocity().length();
+
+        movable.addVelocity(delta.normalize().getMul(-2 * movable.velocity().mul(delta) / delta.length()));
         movable.move(delta);
     }
 
-    public static Vector2d getDeltaVector(CollideObject first, CollideObject second){
+    public static Vector2d getDeltaVector(GameObject first, GameObject second){
         Point2d firstSupport = first.getSupportPoint(second);
         Point2d secondSupport = second.getSupportPoint(first);
 
@@ -52,7 +57,7 @@ public class CollideController {
         // nothing to do
     }
 
-    public static void collide(CollideObject first, CollideObject second){
+    public static void collide(GameObject first, GameObject second){
         if(first instanceof MovableObject){
             if(second instanceof MovableObject) collide((MovableObject) first, (MovableObject) second);
             else collide((MovableObject) first, (NotMovableObject) second);
@@ -66,20 +71,20 @@ public class CollideController {
         collide(first.getCollideModel(), second.getCollideModel());
     }
 
-    public static <T1 extends CollideObject, T2 extends CollideObject> void collide(List<T1> group1, List<T2> group2) {
-        for (CollideObject obj1 : group1) {
-            for (CollideObject obj2 : group2) {
+    public static <T1 extends GameObject, T2 extends GameObject> void collide(List<T1> group1, List<T2> group2) {
+        for (GameObject obj1 : group1) {
+            for (GameObject obj2 : group2) {
                 if(obj1 == obj2) continue;
                 collide(obj1, obj2);
             }
         }
     }
-    public static <T extends CollideObject> void collide(List<T> group) {
+    public static <T extends GameObject> void collide(List<T> group) {
         collide(group, group);
     }
-    public static <T extends CollideObject> void collide(CollideObject collideObject ,List<T> group) {
+    public static <T extends GameObject> void collide(GameObject gameObject, List<T> group) {
         for(T t: group){
-            collide(collideObject, t);
+            collide(gameObject, t);
             }
     }
 }
