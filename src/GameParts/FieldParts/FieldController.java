@@ -2,7 +2,6 @@ package GameParts.FieldParts;
 
 import Components.CollideComponent.CollideComponent;
 import Components.Component;
-import Components.MovingCollideComponent;
 import Components.MovingComponent.MovingComponent;
 import ModelDrawer.ObjectDrawer;
 
