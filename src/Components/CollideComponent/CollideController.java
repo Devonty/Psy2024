@@ -14,7 +14,25 @@ public class CollideController {
     public static void collide(MovableObject first, MovableObject second){
         if (Objects.equals(first.center(), second.center())) return;
         Vector2d delta = getDeltaVector(first, second);
+        if (Objects.equals(delta, Vector2d.ZERO_VECTOR)) return;
 
+        moveByMass(first, second, delta);
+        calcVelocityAfterCollide(first, second, delta);
+
+    }
+
+    private static void calcVelocityAfterCollide(MovableObject first, MovableObject second, Vector2d delta){
+        Vector2d v1 = Vector2d.getProjection(first.velocity(), delta);
+        Vector2d v2 = Vector2d.getProjection(second.velocity(), delta);
+        double m1 = first.mass();
+        double m2 = second.mass();
+        Vector2d v1_ = v1.getMul(m1 - m2).move(v2.getMul(2*m2)).mul(1d/(m1 + m2));
+        Vector2d v2_ = v1.getMul(2*m1).move(v2.getMul(m2-m1)).mul(1d/(m1 + m2));
+        first.setVelocity(first.velocity().move(v1.mul(-1)).move(v1_));
+        second.setVelocity(second.velocity().move(v2.mul(-1)).move(v2_));
+    }
+
+    private static void moveByMass(MovableObject first, MovableObject second, Vector2d delta){
         double totalMass = first.mass() + second.mass();
         double firstK = second.mass() / totalMass;
         double secondK = first.mass() / totalMass;
@@ -22,6 +40,7 @@ public class CollideController {
         first.move(delta.getMul(-firstK));
         second.move(delta.getMul(secondK));
     }
+
     public static void collide(MovableObject movable, NotMovableObject notMovable){
         if (Objects.equals(movable.center(), notMovable.center())) return;
         Vector2d delta = getDeltaVector(movable, notMovable).mul(-1);
@@ -29,7 +48,7 @@ public class CollideController {
 
         double oldVel = movable.velocity().length();
 
-        movable.addVelocity(delta.normalize().getMul(-2 * movable.velocity().mul(delta) / delta.length()));
+        movable.addVelocity(delta.getNormalize().getMul(-2 * movable.velocity().mul(delta) / delta.length()));
         movable.move(delta);
     }
 

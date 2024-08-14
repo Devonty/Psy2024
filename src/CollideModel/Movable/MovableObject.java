@@ -24,4 +24,8 @@ abstract public class MovableObject extends BaseGameObject {
         velocity.set(newVelocity);
     }
 
+    public void mulVelocity(double mul) {
+        velocity.mul(mul);
+    }
+
 }
