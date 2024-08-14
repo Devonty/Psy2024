@@ -10,6 +10,7 @@ import ModelDrawer.CircleDrawer;
 import ModelDrawer.ObjectDrawer;
 import ModelDrawer.WallDrawer;
 import MyMath.Point2d;
+import MyMath.Vector2d;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,8 +72,13 @@ public class Game implements Runnable {
         }
     }
 
+    public synchronized void addCircle(Point2d center, double radios, Vector2d velocity) {
+        CircleModel circleModel = new CircleModel(center, radios);
+        circleModel.setVelocity(velocity);
+        toAddList.add(new CircleDrawer(circleModel));
+    }
     public synchronized void addCircle(Point2d center, double radios) {
-        toAddList.add(new CircleDrawer(new CircleModel(center, radios)));
+        addCircle(center, radios, Vector2d.ZERO_VECTOR);
     }
 
     public synchronized void addWall(Point2d p1, Point2d p2, double width) {
