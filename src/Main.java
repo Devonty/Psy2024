@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         // GamePanel
         Game game = new Game(30);
-        fillSample1(game);
+        fillSample4(game);
 
         Thread gameThread = new Thread(game, "gameThread");
         gameThread.start();
@@ -45,5 +45,13 @@ public class Main {
     public static void fillSample3(Game game) {
         game.addCircle(new Point2d(900, 300), 10, new Vector2d(0, 10));
         game.addCircle(new Point2d(600, 600), 10, new Vector2d(10, 0));
+    }
+
+    public static void fillSample4(Game game) {
+        game.addCircle(new Point2d(900, 300), 10, new Vector2d(0, 0));
+        for (int y = 300; y <= 800; y+=50) {
+            game.addWall(new Point2d(600, y), new Point2d(800, y), 5);
+        }
+        game.addWall(new Point2d(800, 800), new Point2d(1000, 800), 20);
     }
 }
