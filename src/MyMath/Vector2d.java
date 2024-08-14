@@ -39,10 +39,18 @@ public class Vector2d extends Point2d {
         return this.getDistanceTo(ZERO_POINT);
     }
 
+    public static Vector2d getProjection(Vector2d toProject, Vector2d projectOn){
+        return projectOn.getNormalize().mul(toProject.mul(projectOn) / projectOn.length());
+    }
 
     public Vector2d normalize() {
         this.mul(1d / this.length());
         return this;
+    }
+
+
+    public Vector2d getNormalize() {
+        return new Vector2d(this).normalize();
     }
 
     public double mul(Vector2d other) {
