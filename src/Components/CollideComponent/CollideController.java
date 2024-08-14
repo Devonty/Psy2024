@@ -41,14 +41,15 @@ public class CollideController {
         second.move(delta.getMul(secondK));
     }
 
+    public static double velColK = 1.70710678118;
+
     public static void collide(MovableObject movable, NotMovableObject notMovable){
         if (Objects.equals(movable.center(), notMovable.center())) return;
         Vector2d delta = getDeltaVector(movable, notMovable).mul(-1);
         if (Objects.equals(delta, Vector2d.ZERO_VECTOR)) return;
 
-        double oldVel = movable.velocity().length();
-
-        movable.addVelocity(delta.getNormalize().getMul(-2 * movable.velocity().mul(delta) / delta.length()));
+        movable.addVelocity(delta.getNormalize().getMul(-velColK * movable.velocity().mul(delta) / delta.length()));
+        if(movable.velocity().length() < 1E-2) movable.setVelocity(Vector2d.ZERO_VECTOR);
         movable.move(delta);
     }
 
