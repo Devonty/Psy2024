@@ -1,6 +1,6 @@
 package CollideModel.NotMovable;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 import MyMath.Point2d;
 import MyMath.Segment2d;
 import MyMath.Vector2d;
@@ -44,7 +44,7 @@ public class WallModel extends NotMovableObject {
     }
 
     @Override
-    public Point2d getSupportPoint(CollideObject other) {
+    public Point2d getSupportPoint(GameObject other) {
         Point2d projection = segment.projectionOnLine(other.center());
         if (segment.isOnSegment(projection)) return projection;
         return projection.getDistancePow2To(segment.start()) < projection.getDistancePow2To(segment.end()) ?

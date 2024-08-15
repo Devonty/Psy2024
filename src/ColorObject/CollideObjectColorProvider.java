@@ -1,12 +1,12 @@
 package ColorObject;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 
 abstract public class CollideObjectColorProvider implements ColorProvider {
-    protected final CollideObject collideObject;
+    protected final GameObject gameObject;
 
-    public CollideObjectColorProvider(CollideObject collideObject) {
-       this.collideObject = collideObject;
+    public CollideObjectColorProvider(GameObject gameObject) {
+       this.gameObject = gameObject;
     }
 
 }

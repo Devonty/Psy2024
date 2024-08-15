@@ -2,13 +2,10 @@ package ModelDrawer;
 
 import CollideModel.Movable.CircleModel;
 import ColorObject.RandomColorProvider;
-import ColorObject.SumMoveColorProvider;
-
 import java.awt.*;
 
 public class CircleDrawer extends BaseDrawer {
     public CircleDrawer(CircleModel circleModel) {
-        //super(circleModel, new SumMoveColorProvider(circleModel));
         super(circleModel, new RandomColorProvider());
     }
 
@@ -24,5 +21,8 @@ public class CircleDrawer extends BaseDrawer {
         g.fillOval(x, y, diameter, diameter);
         g.setColor(borderColorProvider.getColor());
         g.drawOval(x, y, diameter, diameter);
+
+        // add speed vector
+        g.drawLine((int) model.x(), (int) model.y(), (int) (model.x() + model.velocity().x()), (int) (model.y() + model.velocity().y()));
     }
 }

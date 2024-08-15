@@ -1,19 +1,19 @@
 package CollideModel;
 
-import CollideModel.NotMovable.NotMovableObject;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
-abstract public class BaseCollideObject implements CollideObject {
+abstract public class BaseGameObject implements GameObject {
     protected Point2d center;
     protected final Vector2d sumMove;
     protected double mass;
 
-    public BaseCollideObject(Point2d center, double mass) {
+    public BaseGameObject(Point2d center, double mass) {
         this.center = new Point2d(center);
-        this.sumMove = new Vector2d(Vector2d.ZERO_VECTOR);
+        this.sumMove = new Vector2d();
         this.mass = mass;
     }
+
 
     @Override
     public Point2d center() {

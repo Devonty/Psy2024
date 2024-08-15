@@ -24,6 +24,7 @@ public class Point2d {
         return this;
     }
 
+
     public Point2d() {
        this(0,0);
     }
@@ -36,11 +37,12 @@ public class Point2d {
         return deltaX*deltaX + deltaY*deltaY;
     }
 
-    public Point2d move(Point2d delta){
+    public <T extends Point2d> T move(T delta){
         x+=delta.x;
         y+=delta.y;
-        return this;
+        return (T) this;
     }
+
     public Point2d getMoved(Vector2d delta){
         Point2d moved = new Point2d(this);
         moved.move(delta);
@@ -61,6 +63,15 @@ public class Point2d {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public void set(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public void set(Point2d point){
+        set(point.x, point.y);
     }
 
     @Override

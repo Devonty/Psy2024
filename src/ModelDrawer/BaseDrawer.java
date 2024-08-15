@@ -1,8 +1,7 @@
 package ModelDrawer;
 
-import CollideModel.CollideObject;
+import CollideModel.GameObject;
 import ColorObject.ColorProvider;
-import ColorObject.RandomColorProvider;
 import ColorObject.SimpleColorProvider;
 
 import java.awt.*;
@@ -10,19 +9,19 @@ import java.awt.*;
 abstract public class BaseDrawer implements ObjectDrawer {
     protected ColorProvider mainColorProvider;
     protected ColorProvider borderColorProvider;
-    protected CollideObject collideModel;
+    protected GameObject collideModel;
 
-    public BaseDrawer(CollideObject collideModel, ColorProvider mainColorProvider, ColorProvider borderColorProvider) {
+    public BaseDrawer(GameObject collideModel, ColorProvider mainColorProvider, ColorProvider borderColorProvider) {
         this.collideModel = collideModel;
         this.mainColorProvider = mainColorProvider;
         this.borderColorProvider = borderColorProvider;
     }
 
-    public BaseDrawer(CollideObject collideModel, ColorProvider mainColorProvider) {
+    public BaseDrawer(GameObject collideModel, ColorProvider mainColorProvider) {
         this(collideModel, mainColorProvider, new SimpleColorProvider(Color.GRAY));
     }
 
-    public BaseDrawer(CollideObject collideModel) {
+    public BaseDrawer(GameObject collideModel) {
         this(collideModel, new SimpleColorProvider(Color.YELLOW));
     }
 
@@ -37,7 +36,7 @@ abstract public class BaseDrawer implements ObjectDrawer {
     }
 
     @Override
-    public CollideObject getCollideModel() {
+    public GameObject getCollideModel() {
         return collideModel;
     }
 
