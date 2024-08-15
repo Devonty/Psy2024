@@ -1,5 +1,7 @@
 package MyMath;
 
+import java.util.Objects;
+
 public class Vector2d extends Point2d {
     final public static Vector2d ZERO_VECTOR = new Vector2d(0d, 0d);
 
@@ -17,6 +19,14 @@ public class Vector2d extends Point2d {
 
     public Vector2d() {
         super();
+    }
+
+    public boolean areSameDirection(Vector2d other){
+        return areSameDirection(this, other);
+    }
+
+    public static boolean areSameDirection(Vector2d first, Vector2d second){
+        return Objects.equals(first.getNormalized(), second.getNormalized());
     }
 
     public Vector2d getOrthogonal(){
@@ -40,16 +50,17 @@ public class Vector2d extends Point2d {
     }
 
     public static Vector2d getProjection(Vector2d toProject, Vector2d projectOn){
-        return projectOn.getNormalize().mul(toProject.mul(projectOn) / projectOn.length());
+        return projectOn.getNormalized().mul(toProject.mul(projectOn) / projectOn.length());
     }
 
     public Vector2d normalize() {
+        if(Objects.equals(this, Vector2d.ZERO_VECTOR)) return this;
         this.mul(1d / this.length());
         return this;
     }
 
 
-    public Vector2d getNormalize() {
+    public Vector2d getNormalized() {
         return new Vector2d(this).normalize();
     }
 

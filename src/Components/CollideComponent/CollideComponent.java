@@ -52,8 +52,9 @@ public class CollideComponent extends BaseComponent<GameObject> {
     public void update() {
         //makeProjection();
         //movableObjects.forEach(this::collideWithNeighbors);
-        CollideController.collide(movableObjects);
+        movableObjects.forEach(MovableObject::setUnstable);
         CollideController.collide(movableObjects, notMovableObjects);
+        CollideController.collide(movableObjects);
     }
 
     private void collideWithNeighbors(GameObject gameObject){
