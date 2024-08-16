@@ -21,19 +21,19 @@ public class Vector2d extends Point2d {
         super();
     }
 
-    public boolean areSameDirection(Vector2d other){
+    public boolean areSameDirection(Vector2d other) {
         return areSameDirection(this, other);
     }
 
-    public static boolean areSameDirection(Vector2d first, Vector2d second){
+    public static boolean areSameDirection(Vector2d first, Vector2d second) {
         return Objects.equals(first.getNormalized(), second.getNormalized());
     }
 
-    public Vector2d getOrthogonal(){
+    public Vector2d getOrthogonal() {
         return new Vector2d(-y, x);
     }
 
-    public static Vector2d getOrthogonal(Vector2d vector2d){
+    public static Vector2d getOrthogonal(Vector2d vector2d) {
         return new Vector2d(-vector2d.y, vector2d.x);
     }
 
@@ -49,12 +49,12 @@ public class Vector2d extends Point2d {
         return this.getDistanceTo(ZERO_POINT);
     }
 
-    public static Vector2d getProjection(Vector2d toProject, Vector2d projectOn){
+    public static Vector2d getProjection(Vector2d toProject, Vector2d projectOn) {
         return projectOn.getNormalized().mul(toProject.mul(projectOn) / projectOn.length());
     }
 
     public Vector2d normalize() {
-        if(Objects.equals(this, Vector2d.ZERO_VECTOR)) return this;
+        if (Objects.equals(this, Vector2d.ZERO_VECTOR)) return this;
         this.mul(1d / this.length());
         return this;
     }
@@ -77,5 +77,15 @@ public class Vector2d extends Point2d {
     public Vector2d getMul(double k) {
         Vector2d muled = new Vector2d(this);
         return muled.mul(k);
+    }
+
+    public Vector2d sub(Vector2d delta) {
+        x -= delta.x;
+        y -= delta.y;
+        return this;
+    }
+
+    public static Vector2d sub(Vector2d v1, Vector2d v2){
+        return new Vector2d(v1).sub(v2);
     }
 }
