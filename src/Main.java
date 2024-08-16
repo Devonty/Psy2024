@@ -2,17 +2,20 @@ import GameParts.Game;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         // GamePanel
         Game game = new Game(30);
         fillSample1(game);
-        fillSample2(game);
+        //fillSample2(game);
         fillSample3 (game);
-        fillSample4(game);
+        //fillSample4(game);
 
-        Thread gameThread = new Thread(game, "gameThread");
-        gameThread.start();
+        game.start();
+
+
     }
 
 
@@ -46,8 +49,8 @@ public class Main {
     }
 
     public static void fillSample3(Game game) {
-        game.addCircle(new Point2d(900, 300), 10, new Vector2d(0, 1));
-        game.addCircle(new Point2d(600, 600), 10, new Vector2d(1, 0));
+        game.addCircle(new Point2d(900, 300), 10, new Vector2d(0, 0));
+        game.addCircle(new Point2d(900, 600), 10, new Vector2d(0    , 0));
     }
 
     public static void fillSample4(Game game) {

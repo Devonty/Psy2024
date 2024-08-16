@@ -1,27 +1,24 @@
 package GameParts.SwingParts;
 
-import CollideModel.Movable.CircleModel;
-import CollideModel.NotMovable.WallModel;
-import ColorObject.ColorUtils;
-import ColorObject.SumMoveColorProvider;
-import GameParts.FieldParts.Field;
 import GameParts.FieldParts.FieldController;
 import GameParts.Game;
-import ModelDrawer.CircleDrawer;
-import ModelDrawer.WallDrawer;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class GamePanel extends JPanel {
     private final Game game;
+
+    public void setCircleOnLMB(int circleOnLMB) {
+        this.circleOnLMB = circleOnLMB;
+    }
+
+    private int circleOnLMB = 1;
     private final FieldController fieldController;
 
     public GamePanel(Game game) {
@@ -40,7 +37,7 @@ public class GamePanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 1) {
                     Point2d point = new Point2d(e.getXOnScreen(), e.getYOnScreen() - 15);
-                    for (int i = 0; i < 10; i++) {
+                    for (int i = 0; i < circleOnLMB; i++) {
                         game.addCircle(new Point2d(point).addNoiseVector(1E-1), 15);
 
                     }
