@@ -15,7 +15,7 @@ abstract public class MovableObject extends BaseGameObject {
 
     public MovableObject(Point2d center, double mass) {
         super(center, mass);
-        this.velocity = new Vector2d(5, 5);
+        this.velocity = new Vector2d();
         this.blockDirections = new LinkedList<>();
     }
 
