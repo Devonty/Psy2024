@@ -17,8 +17,8 @@ public class FieldController {
         this.field = field;
         this.components = new ArrayList<>(5);
 
-        this.components.add(new MovingComponent());
         this.components.add(new CollideComponent());
+        this.components.add(new MovingComponent());
     }
 
     public void update() {
