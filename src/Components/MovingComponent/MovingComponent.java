@@ -32,10 +32,20 @@ public class MovingComponent extends BaseComponent<MovableObject> {
     }
 
     private static void updateByVelocity(MovableObject movable){
+        forceGravity(movable);
+        forceStop(movable);
+
+        movable.move(movable.velocity().mul(timeStep));
+    }
+
+    private static void forceGravity(MovableObject movable){
         movable.addVelocity(gravity.getMul(timeStep));
+    }
+    private static void forceStop(MovableObject movable){
+        // V^2 force
         Vector2d stopDelta = new Vector2d(movable.velocity()).mul(-stopK * movable.velocity().getDistancePow2To(Point2d.ZERO_POINT) / (2d * movable.mass()));
         movable.addVelocity(stopDelta);
+        // linealStop
         movable.addVelocity(movable.velocity().normalize().mul(-Math.min(stopK, movable.velocity().length())));
-        movable.move(movable.velocity().mul(timeStep));
     }
 }
