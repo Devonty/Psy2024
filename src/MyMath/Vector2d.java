@@ -13,7 +13,7 @@ public class Vector2d extends Point2d {
         super(to.x - from.x, to.y - from.y);
     }
 
-    public Vector2d(Vector2d toCopy) {
+    public Vector2d(Point2d toCopy) {
         super(toCopy.x, toCopy.y);
     }
 
@@ -77,6 +77,20 @@ public class Vector2d extends Point2d {
     public Vector2d getMul(double k) {
         Vector2d muled = new Vector2d(this);
         return muled.mul(k);
+    }
+
+    public Vector2d getSub(Vector2d other){
+        return new Vector2d(this).sub(other);
+    }
+
+    public Vector2d move(Vector2d delta){
+        x+=delta.x;
+        y+=delta.y;
+        return this;
+    }
+
+    public Vector2d getMoved(Point2d delta){
+        return new Vector2d(super.getMoved(delta));
     }
 
     public Vector2d sub(Vector2d delta) {
