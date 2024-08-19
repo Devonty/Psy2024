@@ -9,7 +9,7 @@ import MyMath.Vector2d;
 import java.util.function.Function;
 
 public class MovingComponent extends BaseComponent<MovableObject> {
-    public static final double timeStep = 0.2;
+    public static final double timeStep = 0.1;
     public static final double stopK = 0.05;
     public static final Vector2d gravity = new Vector2d(0, 9.81);
     public MovingComponent(Function<GameObject, Boolean> addingRule) {
@@ -39,7 +39,8 @@ public class MovingComponent extends BaseComponent<MovableObject> {
     }
 
     private static void forceGravity(MovableObject movable){
-        movable.addVelocity(gravity.getMul(timeStep));
+        Vector2d toAdd = movable.getClearedBlockedDirections(gravity.getMul(timeStep));
+        movable.addVelocity(toAdd);
     }
     private static void forceStop(MovableObject movable){
         // V^2 force

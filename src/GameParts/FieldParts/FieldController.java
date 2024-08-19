@@ -33,4 +33,8 @@ public class FieldController {
     public void draw(Graphics2D g) {
         field.objectDrawers.forEach(x -> x.draw(g));
     }
+
+    public Component getComponent(int index){
+        return components.get(index);
+    }
 }
