@@ -2,6 +2,8 @@ package ModelDrawer;
 
 import CollideModel.Movable.CircleModel;
 import ColorObject.RandomColorProvider;
+import MyMath.Vector2d;
+
 import java.awt.*;
 
 public class CircleDrawer extends BaseDrawer {
@@ -23,6 +25,13 @@ public class CircleDrawer extends BaseDrawer {
         g.drawOval(x, y, diameter, diameter);
 
         // add speed vector
+        g.setColor(Color.BLUE);
         g.drawLine((int) model.x(), (int) model.y(), (int) (model.x() + model.velocity().x()), (int) (model.y() + model.velocity().y()));
+
+        double k = 10;
+        g.setColor(Color.RED);
+        for(Vector2d direction : model.getBlockDirections()){
+            g.drawLine((int) model.x(), (int) model.y(), (int) (model.x() + direction.x() * k), (int) (model.y() + direction.y() * k));
+        }
     }
 }
