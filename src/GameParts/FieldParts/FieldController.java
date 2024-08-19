@@ -17,8 +17,8 @@ public class FieldController {
         this.field = field;
         this.components = new ArrayList<>(5);
 
-        this.components.add(new MovingComponent());
         this.components.add(new CollideComponent());
+        this.components.add(new MovingComponent());
     }
 
     public void update() {
@@ -32,5 +32,9 @@ public class FieldController {
 
     public void draw(Graphics2D g) {
         field.objectDrawers.forEach(x -> x.draw(g));
+    }
+
+    public Component getComponent(int index){
+        return components.get(index);
     }
 }

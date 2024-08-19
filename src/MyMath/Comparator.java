@@ -1,7 +1,7 @@
 package MyMath;
 
 public class Comparator {
-    public static final double TOLERANCE = 1E-10;
+    public static final double TOLERANCE = 1E-4;
 
     public static boolean almostEqual(double a, double b, double eps) {
         // System.out.printf("a=%f, b=%f, esp=%f, delta=%f\n", a, b, eps, Math.abs(a - b));

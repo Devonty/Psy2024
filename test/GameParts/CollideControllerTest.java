@@ -32,4 +32,21 @@ class CollideControllerTest {
         Point2d circleCenterExpected = new Point2d(1, 12);
         assertEquals(circleCenterExpected, circle.center());
     }
+
+    @Test
+    void testBlockDirections1() {
+        /*
+        NOT FINISHED
+         */
+        MovableObject circleTop = new CircleModel(1, 32, 10);
+        MovableObject circleBottom = new CircleModel(1, 12, 10);
+        NotMovableObject wall = new WallModel(new Point2d(-10, 0), new Point2d(10, 0), 2);
+
+        CollideController.collide(circleTop, wall);
+        CollideController.collide(circleBottom, wall);
+        CollideController.collide(circleBottom, circleTop);
+
+        Point2d circleCenterExpected = new Point2d(1, 12);
+        assertEquals(circleCenterExpected, circleBottom.center());
+    }
 }

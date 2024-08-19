@@ -17,6 +17,7 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Game implements Runnable {
     private final Field field; // contains
@@ -50,6 +51,16 @@ public class Game implements Runnable {
     }
 
     public Game() {this(60d);}
+
+    public void start(){
+        Thread gameThread = new Thread(this, "gameThread");
+        gameThread.start();
+
+        Scanner scanner = new Scanner(System.in);
+        while (gameThread.isAlive()) {
+            gamePanel.setCircleOnLMB(scanner.nextInt());
+        }
+    }
     @Override
     public void run() {
         keepRunning = true;
@@ -63,7 +74,7 @@ public class Game implements Runnable {
             delta += (now - lastTime) / clock;
 
             while (delta >= 1) {
-                System.out.println(++frameCount);
+                //System.out.println(++frameCount);
                 update();
                 delta=0;
             }

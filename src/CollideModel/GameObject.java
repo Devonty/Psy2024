@@ -15,7 +15,7 @@ public interface GameObject {
 
     Point2d center();
 
-    void move(Vector2d delta);
+    GameObject move(Vector2d delta);
 
     Vector2d sumMove();
 

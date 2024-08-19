@@ -23,4 +23,20 @@ class Vector2dTest {
         Vector2d projection = Vector2d.getProjection(toProject, projectOn);
         assertEquals(expected, projection);
     }
+
+    @Test
+    void areSameDirection1() {
+        Vector2d v1 = new Vector2d(1, 0);
+        Vector2d v2 = new Vector2d(1, 0);
+        boolean expected =  true;
+        assertEquals(expected, v1.areSameDirection(v2));
+    }
+
+    @Test
+    void areSameDirection2() {
+        Vector2d v1 = new Vector2d(1, 0);
+        Vector2d v2 = new Vector2d(-1, 0);
+        boolean expected =  false;
+        assertEquals(expected, v1.areSameDirection(v2));
+    }
 }

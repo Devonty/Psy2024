@@ -37,17 +37,18 @@ public class Point2d {
         return deltaX*deltaX + deltaY*deltaY;
     }
 
-    public <T extends Point2d> T move(T delta){
+    public Point2d move(Point2d delta){
         x+=delta.x;
         y+=delta.y;
-        return (T) this;
+        return this;
     }
 
-    public Point2d getMoved(Vector2d delta){
+    public Point2d getMoved(Point2d delta){
         Point2d moved = new Point2d(this);
         moved.move(delta);
         return moved;
     }
+
 
     public double x() {
         return x;

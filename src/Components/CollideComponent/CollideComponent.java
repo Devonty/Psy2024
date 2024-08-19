@@ -50,15 +50,16 @@ public class CollideComponent extends BaseComponent<GameObject> {
 
     @Override
     public void update() {
-        //makeProjection();
-        //movableObjects.forEach(this::collideWithNeighbors);
+        makeProjection();
         movableObjects.forEach(MovableObject::setUnstable);
         CollideController.collide(movableObjects, notMovableObjects);
-        CollideController.collide(movableObjects);
+        movableObjects.forEach(this::collideWithNeighbors);
+        //CollideController.collide(movableObjects);
     }
 
     private void collideWithNeighbors(GameObject gameObject){
-        CollideController.collide(gameObject, getNeighborList(gameObject));
+        List<GameObject> neighborList = getNeighborList(gameObject);
+        CollideController.collide(gameObject, neighborList);
     }
 
     private static final int[] Is = new int[]{-1, 0, 1, -1, 0, 1, -1, 0, 1};
@@ -72,14 +73,14 @@ public class CollideComponent extends BaseComponent<GameObject> {
             int indexJ = ij[1] + Js[i];
             neighbors.addAll(getFromFieldMask(indexI, indexJ));
         }
-        neighbors.remove(gameObject);
+        //neighbors.remove(gameObject);
         return neighbors;
     }
 
     private int[] getIJbyCollideObject(GameObject gameObject) {
         int[] ij = new int[2];
-        ij[0] = (int) ((gameObject.x() - minX) / deltaStep);
-        ij[1] = (int) ((gameObject.y() - minY) / deltaStep);
+        ij[0] = (int) ((gameObject.y() - minY) / deltaStep);
+        ij[1] = (int) ((gameObject.x() - minX) / deltaStep);
         return ij;
     }
 
@@ -90,9 +91,9 @@ public class CollideComponent extends BaseComponent<GameObject> {
     }
 
     public void makeProjection() {
-        clearFieldMatrix();
         calcParams();
-        for (GameObject gameObject : allObjects) {
+        clearFieldMatrix();
+        for (GameObject gameObject : movableObjects) {
             int[] ij = getIJbyCollideObject(gameObject);
             getFromFieldMask(ij[0], ij[1]).add(gameObject);
         }
@@ -147,8 +148,25 @@ public class CollideComponent extends BaseComponent<GameObject> {
         maxY = Math.max(maxY, gameObject.y());
 
         if (gameObject instanceof CircleModel) {
+            double oldDeltaStep = deltaStep;
             deltaStep = Math.max(deltaStep, ((CircleModel) gameObject).radius() * 2.1);
+            if(deltaStep != oldDeltaStep) {
+                height = 0;
+                width = 0;
+            }
         }
 
+    }
+
+    public double getDeltaStep() {
+        return deltaStep;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

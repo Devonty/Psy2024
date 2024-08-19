@@ -21,9 +21,10 @@ abstract public class BaseGameObject implements GameObject {
     }
 
     @Override
-    public void move(Vector2d delta) {
+    public GameObject move(Vector2d delta) {
         center.move(delta);
         sumMove.move(delta);
+        return this;
     }
 
     @Override
