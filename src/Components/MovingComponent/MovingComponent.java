@@ -39,6 +39,7 @@ public class MovingComponent extends BaseComponent<MovableObject> {
     }
 
     private static void forceGravity(MovableObject movable){
+        if(movable.isStableAtDirection(gravity)) return;
         Vector2d toAdd = movable.getClearedBlockedDirections(gravity.getMul(timeStep));
         movable.addVelocity(toAdd);
     }
