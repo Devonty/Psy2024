@@ -23,6 +23,7 @@ public class CollideComponent extends BaseComponent<GameObject> {
 
     private double minX, minY, maxX, maxY;
     private int height, width;
+    private final int maxHeight = 9, maxWidth = 16;
     private double deltaStep;
 
     public CollideComponent(Function<GameObject, Boolean> addingRule) {
@@ -111,8 +112,14 @@ public class CollideComponent extends BaseComponent<GameObject> {
         int oldHeight = height;
         int oldWidth = width;
 
-        height = Math.max((int) ((maxY - minY) / deltaStep + 1), height);
-        width = Math.max((int) ((maxX - minX) / deltaStep + 1), width);
+        double dx = maxX - minX;
+        double dy = maxY - minY;
+
+        deltaStep = Math.max(deltaStep, Math.min(dy / maxHeight, dx / maxWidth));
+
+        height = Math.max((int) (dy / deltaStep + 1), height);
+        width = Math.max((int) (dx / deltaStep + 1), width);
+
 
         if(oldHeight == height && oldWidth== width) return;
 
