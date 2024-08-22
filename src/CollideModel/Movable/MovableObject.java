@@ -8,6 +8,8 @@ import MyMath.Vector2d;
 
 import java.util.*;
 
+import static Components.CollideComponent.CollideController.velColK;
+
 abstract public class MovableObject extends BaseGameObject {
     protected Vector2d velocity;
     protected List<Vector2d> blockDirections;
@@ -41,7 +43,7 @@ abstract public class MovableObject extends BaseGameObject {
 
     private void fixVelocityByBlockDirections(){
         Vector2d clear = getClearedBlockedDirections(velocity);
-        velocity = clear.move(velocity.getSub(clear).mul(-1));
+        velocity = clear.move(velocity.getSub(clear).mul(-velColK));
     }
 
     public Vector2d getClearedBlockedDirections(Vector2d vector) {
@@ -59,7 +61,7 @@ abstract public class MovableObject extends BaseGameObject {
     }
 
     public boolean isStableAtDirection(Vector2d direction) {
-        return Objects.equals(Vector2d.ZERO_VECTOR, getClearedBlockedDirections(new Vector2d(direction)));
+        return Objects.equals(Vector2d.ZERO_VECTOR, getClearedBlockedDirections(direction));
     }
 
     public void setStableAtDirection(Vector2d direction) {
