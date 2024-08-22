@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 public class MovingComponent extends BaseComponent<MovableObject> {
     public static final double timeStep = 0.1;
-    public static final double stopK = 0.05;
+    public static final double stopK = 0.40;
     public static final Vector2d gravity = new Vector2d(0, 9.81);
     public MovingComponent(Function<GameObject, Boolean> addingRule) {
         super(addingRule);
@@ -32,22 +32,33 @@ public class MovingComponent extends BaseComponent<MovableObject> {
     }
 
     private static void updateByVelocity(MovableObject movable){
-        forceGravity(movable);
-        forceStop(movable);
+        if(movable.velocity().length() >0 && movable.velocity().length() > movable.sumMove().length() / timeStep) movable.setVelocity(movable.sumMove().getMul(1/timeStep));
+        Vector2d sumVelocityDelta = new Vector2d();
+        sumVelocityDelta.move(forceGravity(movable));
+        sumVelocityDelta.move(forceStop(movable));
 
+        movable.addVelocity(sumVelocityDelta.mul(timeStep));
+
+        //if(movable.velocity().length() > movable.sumMove().length() / timeStep) movable.setVelocity(movable.velocity().normalize().mul(movable.sumMove().length() / timeStep));
         movable.move(movable.velocity().mul(timeStep));
+
     }
 
-    private static void forceGravity(MovableObject movable){
-        if(movable.isStableAtDirection(gravity)) return;
-        Vector2d toAdd = movable.getClearedBlockedDirections(gravity.getMul(timeStep));
-        movable.addVelocity(toAdd);
+    private static Vector2d forceGravity(MovableObject movable){
+        Vector2d total = new Vector2d();
+        if(movable.isStableAtDirection(gravity)) return total;
+        Vector2d toAdd = movable.getClearedBlockedDirections(gravity);
+        total.move(toAdd);
+        return total;
     }
-    private static void forceStop(MovableObject movable){
+    private static Vector2d forceStop(MovableObject movable){
+        Vector2d totalStop = new Vector2d();
         // V^2 force
-        Vector2d stopDelta = new Vector2d(movable.velocity()).mul(-stopK * movable.velocity().getDistancePow2To(Point2d.ZERO_POINT) / (2d * movable.mass()));
-        movable.addVelocity(stopDelta);
+        Vector2d sqrStop = new Vector2d(movable.velocity()).mul(-stopK * movable.velocity().getDistancePow2To(Point2d.ZERO_POINT) / (2d * movable.mass()));
+        totalStop.move(sqrStop);
         // linealStop
-        movable.addVelocity(movable.velocity().normalize().mul(-Math.min(stopK, movable.velocity().length())));
+        Vector2d linStop = movable.velocity().normalize().mul(stopK * timeStep);
+        totalStop.move(linStop);
+        return totalStop;
     }
 }
