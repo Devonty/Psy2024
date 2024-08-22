@@ -16,10 +16,7 @@ public class CollideController {
         if (first instanceof CircleModel && second instanceof CircleModel) {
             calcVelocityAfterCollide((CircleModel) first, (CircleModel) second);
         }
-        DeltaVectorInfo delta = getDeltaVector(first, second);
-        if (delta == null) return;
-
-        if (delta.length != 0) moveByMass(first, second, delta.direction.getMul(delta.length));
+        moveByMass(first, second);
 
     }
 
@@ -57,7 +54,11 @@ public class CollideController {
         second.move(v2.getMul(t0));
     }
 
-    private static void moveByMass(MovableObject first, MovableObject second, Vector2d delta) {
+    private static void moveByMass(MovableObject first, MovableObject second) {
+        DeltaVectorInfo deltaVectorInfo = getDeltaVector(first, second);
+        if (deltaVectorInfo == null || deltaVectorInfo.length == 0) return;
+        Vector2d delta = deltaVectorInfo.getVector();
+
         double totalMass = first.mass() + second.mass();
         double firstK = second.mass() / totalMass;
         double secondK = first.mass() / totalMass;
@@ -65,46 +66,50 @@ public class CollideController {
         Vector2d d1 = delta.getMul(-firstK);
         Vector2d d2 = delta.getMul(secondK);
 
-        Vector2d d1_clear = first.getClearedBlockedDirections(d1);
-        Vector2d d2_clear = second.getClearedBlockedDirections(d2);
+        first.move(d1);
+        second.move(d2);
 
-        Vector2d d1_delta = d1.getSub(d1_clear).mul(-velColK);
-        Vector2d d2_delta = d2.getSub(d2_clear).mul(-velColK);
-
-
-        // if(delta.length() <= 1E-2) return;
-        double toler = 1E-4;
-        if (d2_clear.length() <= toler) first.setStableAtDirection(d1_delta.getMoved(d1_clear.getMul(-1)));
-        if (d1_clear.length() <= toler) second.setStableAtDirection(d2_delta.getMoved(d2_clear.getMul(-1)));
-
-        //first.move(d1_clear).move(d1_delta);
-        //second.move(d2_clear).move(d2_delta);
-
-        first.move(d1_clear);
-        second.move(d2_clear);
+        if(second.isStableAtDirection(deltaVectorInfo.direction)) first.setStableAtDirection(deltaVectorInfo.direction);
+        if(first.isStableAtDirection(deltaVectorInfo.direction.getMul(-1))) second.setStableAtDirection(deltaVectorInfo.direction.getMul(-1));
     }
 
 
     public static double velColK = 0.70710678118;
 
     public static void collide(MovableObject movable, NotMovableObject notMovable) {
-        // if on same position
-        if (Objects.equals(movable.center(), notMovable.center())) return;
-
         // collide
-        DeltaVectorInfo delta = getDeltaVector(movable, notMovable);
-        if (delta == null) return;
-        movable.move(delta.direction.getMul(-delta.length));
+        DeltaVectorInfo deltaVectorInfo = getDeltaVector(movable, notMovable);
+        if (deltaVectorInfo == null) return;
+        movable.setStableAtDirection(deltaVectorInfo.direction);
 
-        // velocity
-        Vector2d verticalVelocity = Vector2d.getProjection(movable.velocity(), delta.direction);
-        movable.setStableAtDirection(delta.direction);
-        if(verticalVelocity.areSameDirection(delta.direction))
-            movable.addVelocity(verticalVelocity.getMul(-(1 + velColK)));
+
+
+        if (deltaVectorInfo.length == 0) return;
+        Vector2d d = deltaVectorInfo.getVector();
+        movable.move(d.getMul(-1));
+
+
+       //Vector2d v = movable.velocity();
+
+       //// No velocity
+       //Vector2d v_ = Vector2d.getProjection(v, d);
+       //if(v_.equals(Vector2d.ZERO_VECTOR)) {
+       //    movable.move(d.getMul(-1));
+       //    return;
+       //}
+
+       //// Has velocity
+       //double t0 = d.length() / v_.length();
+       //movable.move(v.getMul(-t0));
+
+
 
     }
 
     public record DeltaVectorInfo(Vector2d direction, double length) {
+        public Vector2d getVector(){
+            return direction.getMul(length);
+        }
     }
 
     public static DeltaVectorInfo getDeltaVector(GameObject first, GameObject second) {
