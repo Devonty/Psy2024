@@ -79,6 +79,11 @@ public class Vector2d extends Point2d {
         return muled.mul(k);
     }
 
+    public double getMul(Vector2d other) {
+        Vector2d muled = new Vector2d(this);
+        return muled.mul(other);
+    }
+
     public Vector2d getSub(Vector2d other){
         return new Vector2d(this).sub(other);
     }

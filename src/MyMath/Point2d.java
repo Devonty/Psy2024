@@ -75,6 +75,32 @@ public class Point2d {
         set(point.x, point.y);
     }
 
+    public Point2d mul(double k) {
+        this.x *= k;
+        this.y *= k;
+        return this;
+    }
+
+    public Point2d getMul(double k) {
+        Point2d muled = new Point2d(this);
+        return muled.mul(k);
+    }
+
+
+    public Point2d getSub(Point2d other){
+        return new Point2d(this).sub(other);
+    }
+
+    public Point2d sub(Point2d delta) {
+        x -= delta.x;
+        y -= delta.y;
+        return this;
+    }
+
+    public static Vector2d sub(Vector2d v1, Vector2d v2){
+        return new Vector2d(v1).sub(v2);
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Point2d && almostEqual(((Point2d)obj).x, x) && almostEqual(((Point2d)obj).y, y);
