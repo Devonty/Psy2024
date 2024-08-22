@@ -1,49 +1,60 @@
 package Components.CollideComponent;
 
 import CollideModel.GameObject;
+import CollideModel.Movable.CircleModel;
 import CollideModel.Movable.MovableObject;
 import CollideModel.NotMovable.NotMovableObject;
+import Components.MovingComponent.MovingComponent;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
-import java.util.List;
 import java.util.Objects;
 
 public class CollideController {
     public static void collide(MovableObject first, MovableObject second) {
         if (first == second || Objects.equals(first.center(), second.center())) return;
+        if (first instanceof CircleModel && second instanceof CircleModel) {
+            calcVelocityAfterCollide((CircleModel) first, (CircleModel) second);
+        }
         DeltaVectorInfo delta = getDeltaVector(first, second);
         if (delta == null) return;
-        //if (delta.length <= 1E2) return;
-        calcVelocityAfterCollide(first, second, delta.direction);
-        if(delta.length != 0) moveByMass(first, second, delta.direction.getMul(delta.length));
+
+        if (delta.length != 0) moveByMass(first, second, delta.direction.getMul(delta.length));
 
     }
 
-    private static void calcVelocityAfterCollide(MovableObject first, MovableObject second, Vector2d delta) {
-        Vector2d v1 = Vector2d.getProjection(first.velocity(), delta);
-        Vector2d v2 = Vector2d.getProjection(second.velocity(), delta);
+    private static void calcVelocityAfterCollide(CircleModel first, CircleModel second) {
+        Vector2d v1 = first.velocity();
+        Vector2d v2 = second.velocity();
 
         double m1 = first.mass();
         double m2 = second.mass();
 
-        Vector2d v1_ = v1.getMul(m1 - m2).move(v2.getMul(2 * m2)).mul(1d / (m1 + m2));
-        Vector2d v2_ = v1.getMul(2 * m1).move(v2.getMul(m2 - m1)).mul(1d / (m1 + m2));
+        double r1 = first.radius();
+        double r2 = second.radius();
 
-        Vector2d v1_adding = v1.getMul(-1).move(v1_);
-        Vector2d v2_adding = v2.getMul(-1).move(v2_);
+        Vector2d deltaV = v1.getSub(v2);
+        Vector2d deltaC = new Vector2d(second.center(), first.center());
 
-        first.addVelocity(v1_adding);
-        second.addVelocity(v2_adding);
+        if(deltaV.equals(Vector2d.ZERO_VECTOR) || deltaC.equals(Vector2d.ZERO_VECTOR)) return;
 
-        //Vector2d v1_clear = first.getClearedBlockedDirections(v1_adding);
-        //Vector2d v2_clear = second.getClearedBlockedDirections(v2_adding);
+        double D_div4 = Math.pow(deltaC.getMul(deltaV), 2) - Math.pow(deltaV.length(), 2) * Math.pow(deltaC.length(), 2) + Math.pow(deltaV.length(), 2) * Math.pow(r1 + r2, 2);
+        if(D_div4 < 0) return;
 
-        //Vector2d v1_delta = v1_adding.getSub(v1_clear).mul(-Math.sqrt(m1/m2) +1);
-        //Vector2d v2_delta = v2_adding.getSub(v2_clear).mul(-Math.sqrt(m1/m2) +1);
+        double t0 = -(deltaC.getMul(deltaV) + Math.sqrt(D_div4)) / Math.pow(deltaV.length(), 2);
+        if (t0 < 0 || t0 > MovingComponent.timeStep) return;
 
-        //first.addVelocity(v2_delta);
-        //second.addVelocity(v1_delta);
+        Vector2d p = deltaC.getMoved(deltaV.getMul(t0));
+
+        Vector2d base = p.getMul(p.getMul(v2.getSub(v1)) / Math.pow(p.length(), 2));
+        Vector2d u1 = v1.getMoved(base.getMul(2*m2/(m1+m2)));
+        Vector2d u2 = v2.getMoved(base.getMul(- 2*m1/(m1+m2)));
+
+        first.setVelocity(u1.mul(Math.sqrt(velColK)));
+        second.setVelocity(u2.mul(Math.sqrt(velColK)));
+
+        first.move(v1.getMul(t0));
+        second.move(v2.getMul(t0));
     }
 
     private static void moveByMass(MovableObject first, MovableObject second, Vector2d delta) {
@@ -63,16 +74,15 @@ public class CollideController {
 
         // if(delta.length() <= 1E-2) return;
         double toler = 1E-4;
-        if(d2_clear.length() <= toler) first.setStableAtDirection(d1_delta.getMoved(d1_clear.getMul(-1)));
-        if(d1_clear.length() <= toler) second.setStableAtDirection(d2_delta.getMoved(d2_clear.getMul(-1)));
+        if (d2_clear.length() <= toler) first.setStableAtDirection(d1_delta.getMoved(d1_clear.getMul(-1)));
+        if (d1_clear.length() <= toler) second.setStableAtDirection(d2_delta.getMoved(d2_clear.getMul(-1)));
 
         //first.move(d1_clear).move(d1_delta);
         //second.move(d2_clear).move(d2_delta);
 
-        first.move(d1);
-        second.move(d2);
+        first.move(d1_clear);
+        second.move(d2_clear);
     }
-
 
 
     public static double velColK = 0.70710678118;
@@ -89,13 +99,13 @@ public class CollideController {
         // velocity
         Vector2d verticalVelocity = Vector2d.getProjection(movable.velocity(), delta.direction);
         movable.setStableAtDirection(delta.direction);
-
-        //if(verticalVelocity.areSameDirection(delta.direction))
+        if(verticalVelocity.areSameDirection(delta.direction))
             movable.addVelocity(verticalVelocity.getMul(-(1 + velColK)));
 
     }
 
-    public record DeltaVectorInfo(Vector2d direction, double length){}
+    public record DeltaVectorInfo(Vector2d direction, double length) {
+    }
 
     public static DeltaVectorInfo getDeltaVector(GameObject first, GameObject second) {
         Point2d firstSupport = first.getSupportPoint(second);
@@ -104,7 +114,7 @@ public class CollideController {
         Point2d firstP = first.calcClosestPointOutsideFor(secondSupport);
         Point2d secondP = second.calcClosestPointOutsideFor(firstSupport);
 
-        if(Objects.equals(firstP, secondP)) return new DeltaVectorInfo(new Vector2d(firstSupport, secondSupport),0);
+        if (Objects.equals(firstP, secondP)) return new DeltaVectorInfo(new Vector2d(firstSupport, secondSupport), 0);
         if (!first.isPointInside(secondP) && !second.isPointInside(firstP)) return null;
 
         double betweenCenterDistance = firstSupport.getDistanceTo(secondSupport);
@@ -125,6 +135,7 @@ public class CollideController {
     }
 
     public static void collide(GameObject first, GameObject second) {
+        if(first == second) return;
         if (first instanceof MovableObject) {
             if (second instanceof MovableObject) collide((MovableObject) first, (MovableObject) second);
             else collide((MovableObject) first, (NotMovableObject) second);
