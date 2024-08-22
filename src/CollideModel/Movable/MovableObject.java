@@ -13,12 +13,19 @@ import static Components.CollideComponent.CollideController.velColK;
 abstract public class MovableObject extends BaseGameObject {
     protected Vector2d velocity;
     protected List<Vector2d> blockDirections;
+    protected Point2d preciousPos;
 
 
     public MovableObject(Point2d center, double mass) {
         super(center, mass);
         this.velocity = new Vector2d();
         this.blockDirections = new LinkedList<>();
+        this.preciousPos = new Point2d(center);
+    }
+
+    @Override
+    public void resetSumMove() {
+        sumMove.set(velocity.getMul(-1));
     }
 
     @Override
@@ -39,11 +46,15 @@ abstract public class MovableObject extends BaseGameObject {
     public void setVelocity(Vector2d newVelocity) {
         velocity.set(newVelocity);
         fixVelocityByBlockDirections();
+        resetSumMove();
     }
 
     private void fixVelocityByBlockDirections(){
         Vector2d clear = getClearedBlockedDirections(velocity);
-        velocity = clear.move(velocity.getSub(clear).mul(-velColK));
+        Vector2d toMove = velocity.getSub(clear).mul(-velColK);
+        velocity = clear;
+        if (toMove.length() <= 1E1) return;
+        velocity.move(toMove);
     }
 
     public Vector2d getClearedBlockedDirections(Vector2d vector) {
@@ -67,6 +78,7 @@ abstract public class MovableObject extends BaseGameObject {
     public void setStableAtDirection(Vector2d direction) {
         if (direction == null || Objects.equals(direction, Vector2d.ZERO_VECTOR)) return;
         blockDirections.add(new Vector2d(direction).normalize());
+        fixVelocityByBlockDirections();
     }
 
     public void setUnstable() {

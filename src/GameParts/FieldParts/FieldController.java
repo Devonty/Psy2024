@@ -1,5 +1,6 @@
 package GameParts.FieldParts;
 
+import CollideModel.GameObject;
 import Components.CollideComponent.CollideComponent;
 import Components.Component;
 import Components.MovingComponent.MovingComponent;
@@ -22,6 +23,7 @@ public class FieldController {
     }
 
     public void update() {
+        field.allObjects.forEach(GameObject::resetSumMove);
         components.forEach(Component::update);
     }
 
