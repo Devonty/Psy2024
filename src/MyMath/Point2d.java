@@ -13,11 +13,6 @@ public class Point2d {
         this.x = x;
         this.y = y;
     }
-    public Point2d multiply(double k) {
-        this.x *= k;
-        this.y *= k;
-        return this;
-    }
 
     public Point2d addNoiseVector(double ratio){
         this.move(Vector2d.getRandomDirection(ratio));

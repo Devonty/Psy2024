@@ -13,7 +13,7 @@ public class WallModel extends NotMovableObject {
     protected final Point2d[] rectPoints;
 
     public WallModel(Segment2d segment, double width) {
-        super(segment.end().move(segment.start()).multiply(0.5d));
+        super(segment.end().move(segment.start()).mul(0.5d));
         this.rectPoints = new Point2d[4];
         this.width = width;
         this.segment = new Segment2d(segment);

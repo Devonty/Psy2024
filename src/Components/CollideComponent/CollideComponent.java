@@ -55,7 +55,6 @@ public class CollideComponent extends BaseComponent<GameObject> {
         movableObjects.forEach(MovableObject::setUnstable);
         CollideController.collide(movableObjects, notMovableObjects);
         movableObjects.forEach(this::collideWithNeighbors);
-        //CollideController.collide(movableObjects);
     }
 
     private void collideWithNeighbors(GameObject gameObject){

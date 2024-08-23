@@ -8,10 +8,9 @@ import MyMath.Vector2d;
 
 import java.util.function.Function;
 
+import static MyMath.Constants.*;
+
 public class MovingComponent extends BaseComponent<MovableObject> {
-    public static final double timeStep = 0.1;
-    public static final double stopK = 0.40;
-    public static final Vector2d gravity = new Vector2d(0, 9.81);
     public MovingComponent(Function<GameObject, Boolean> addingRule) {
         super(addingRule);
 

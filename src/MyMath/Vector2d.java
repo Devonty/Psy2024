@@ -33,10 +33,6 @@ public class Vector2d extends Point2d {
         return new Vector2d(-y, x);
     }
 
-    public static Vector2d getOrthogonal(Vector2d vector2d) {
-        return new Vector2d(-vector2d.y, vector2d.x);
-    }
-
     public static Vector2d getRandomDirection() {
         return getRandomDirection(1d);
     }
@@ -69,8 +65,7 @@ public class Vector2d extends Point2d {
     }
 
     public Vector2d mul(double k) {
-        this.x *= k;
-        this.y *= k;
+        super.mul(k);
         return this;
     }
 
@@ -89,8 +84,7 @@ public class Vector2d extends Point2d {
     }
 
     public Vector2d move(Vector2d delta){
-        x+=delta.x;
-        y+=delta.y;
+        super.move(delta);
         return this;
     }
 
@@ -98,9 +92,13 @@ public class Vector2d extends Point2d {
         return new Vector2d(super.getMoved(delta));
     }
 
+    public Vector2d addNoiseVector(double ratio){
+        super.addNoiseVector(ratio);
+        return this;
+    }
+
     public Vector2d sub(Vector2d delta) {
-        x -= delta.x;
-        y -= delta.y;
+        super.sub(delta);
         return this;
     }
 

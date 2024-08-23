@@ -2,13 +2,11 @@ package CollideModel.Movable;
 
 import CollideModel.BaseGameObject;
 import CollideModel.GameObject;
-import Components.CollideComponent.CollideController;
 import MyMath.Point2d;
 import MyMath.Vector2d;
 
 import java.util.*;
-
-import static Components.CollideComponent.CollideController.velColK;
+import static MyMath.Constants.velColK;
 
 abstract public class MovableObject extends BaseGameObject {
     protected Vector2d velocity;
